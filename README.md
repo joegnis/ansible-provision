@@ -87,7 +87,7 @@ Optionally, install Vagrant plugin
 vagrant plugin install vagrant-triggers
 ```
 
-to automatically remove the VM from SSH know\_hosts.
+to automatically remove the VM from SSH known\_hosts.
 
 ### Create a Separate Playbook for Debugging
 
