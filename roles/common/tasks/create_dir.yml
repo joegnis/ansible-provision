@@ -1,0 +1,10 @@
+---
+# Create a directory recursively.
+# Required params:
+# - dir: path to the dir
+
+- name: create directory {{ dir }}
+  file:
+    path: "{{ dir }}"
+    state: directory
+    recurse: yes

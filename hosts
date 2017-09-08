@@ -1,0 +1,5 @@
+local_vagrant
+dev_laptop
+home_server
+
+# vim: ft=ansible_hosts

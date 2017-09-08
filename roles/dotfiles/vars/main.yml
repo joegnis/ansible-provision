@@ -1,0 +1,10 @@
+---
+dotfiles_dir: "{{ remote_home }}/Projects/dotfiles"
+dotfiles_repo: "https://github.com/joegnis/dotfiles"
+
+debug: false
+
+# Debugging on local machine
+local_dotfiles_dir: "{{ local_home }}/.dotfiles"
+
+# vim: ft=ansible

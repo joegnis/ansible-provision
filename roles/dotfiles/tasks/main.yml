@@ -1,0 +1,35 @@
+---
+# Pull dotfiles from either local machine (for dev) or a repo
+# Params:
+# - debug: boolean, pull from local or repo, default to false
+
+- include: common_tasks/create_dir.yml dir="{{ dotfiles_dir }}"
+
+- name: clean dotfiles
+  file:
+    path: "{{ dotfiles_dir }}"
+    state: absent
+  when: not debug
+
+- name: copy dotfiles from repo
+  git:
+    repo: https://github.com/joegnis/dotfiles
+    dest: "{{ dotfiles_dir }}"
+    force: yes
+  when: not debug
+
+- name: copy dotfiles from local to the remote
+  synchronize:
+    src: "{{ local_dotfiles_dir }}/"
+    dest: "{{ dotfiles_dir }}"
+    checksum: yes
+    delete: yes
+  when: debug
+
+- name: install dotfiles
+  command: "./install"
+  args:
+    chdir:
+      "{{ dotfiles_dir }}"
+
+# vim: ft=ansible

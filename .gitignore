@@ -1,0 +1,8 @@
+# ansible retry files
+*.retry
+
+# Vagrant
+.vagrant
+
+# playbook for dev
+dev.yml

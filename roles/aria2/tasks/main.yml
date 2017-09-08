@@ -1,0 +1,114 @@
+---
+# Install
+# - latest aria2
+# - diana, aria2 cmd interface
+
+# Dependencies
+- name: install dependencies for installing aria2
+  apt:
+    name: make
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Check if aria2 exists, if so, uninstall it
+- name: check if aria2 exists
+  stat:
+    path: "{{ aria2_dir_link }}"
+  register: stat_ret
+  become: yes
+
+- name: uninstall aria2 if it exists
+  make:
+    chdir: "{{ aria2_dir_link }}"
+    target: uninstall
+  become: yes
+  when: stat_ret.stat.exists and ( stat_ret.stat.islnk or stat_ret.stat.isdir )
+
+# Install aria2
+- name: download latest aria2 build
+  get_url:
+    url: "{{ aria2_build_url }}"
+    dest: "{{ aria2_dir_prefix }}"
+  register: download_ret
+  become: yes
+
+- name: unarchive the downloaded file
+  unarchive:
+    src: "{{ download_ret.dest }}"
+    dest: "{{ aria2_dir_prefix }}"
+    remote_src: yes
+    list_files: yes
+  register: unarchive_ret
+  become: yes
+
+- name: link to aria directory
+  file:
+    src: "{{ unarchive_ret.files.0 }}"
+    dest: "{{ aria2_dir_link }}"
+    state: link
+    force: yes
+  become: yes
+
+- name: install aria2
+  make:
+    chdir: "{{ aria2_dir_prefix }}/{{ unarchive_ret.files.0 }}"
+    target: install
+  become: yes
+
+- name: clean up downloaded files
+  file:
+    path: "{{ download_ret.dest }}"
+    state: absent
+  become: yes
+
+# Create config dir
+- include: common_tasks/create_dir.yml dir="{{ aria2_config_dir }}"
+
+# Generate secret token
+- include: common_tasks/gen_random_string.yml
+
+# aria2 daemon for current user
+- name: set up systemd unit for aria2 on current user
+  template:
+    src: aria2.service.j2
+    dest: "{{ systemd_user_dir }}/aria2.service"
+  vars:
+    secret_token: "{{ random_str_ret.stdout }}"
+
+# autostart aria2 daemon
+- name: start and upstart aria2 daemon
+  systemd:
+    user: yes
+    name: aria2
+    daemon_reload: yes
+    enabled: yes
+    state: restarted
+
+# Install diana
+- name: download diana
+  git:
+    repo: https://github.com/baskerville/diana
+    dest: "{{ diana_dir }}"
+
+- name: install diana
+  file:
+    src: "{{ diana_dir }}/diana"
+    dest: "{{ user_local_bin_dir }}/diana"
+    state: link
+
+- name: install dad (from diana)
+  file:
+    src: "{{ diana_dir }}/dad"
+    dest: "{{ user_local_bin_dir }}/dad"
+    state: link
+
+# Token for diana, secrets file correctly set by dotfiles
+- name: set the token for diana (aria2 cmd interface)
+  lineinfile:
+    path: "{{ aria2_secret_file }}"
+    create: yes
+    regexp: '^export DIANA_SECRET_TOKEN='
+    line: "export DIANA_SECRET_TOKEN={{ random_str_ret.stdout }}"
+
+# vim: ft=ansible

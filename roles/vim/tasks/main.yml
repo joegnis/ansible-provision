@@ -1,0 +1,36 @@
+---
+# Install
+# - vim
+# - vim-plug and use it to install plugins
+# - apps required by plugins
+
+- name: install vim
+  apt:
+    name: vim
+    state: latest
+    update_cache: yes
+  become: true
+
+- include: common_tasks/create_dir.yml dir="{{ vim_dir }}"
+
+- name: create directory for vim-plug
+  file:
+    path: "{{ vim_dir }}/autoload"
+    state: directory
+# Vim plugins are listed in dotfiles
+- name: install vim-plug
+  get_url:
+    url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    dest: "{{ vim_dir }}/autoload/plug.vim"
+
+- name: install dependencies for vim plugins
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items: "{{ vim_dependencies }}"
+  become: yes
+
+- name: install vim plugins
+  command: vim -c PlugUpdate -c quitall
+
+# vim: ft=ansible

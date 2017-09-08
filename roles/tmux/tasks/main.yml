@@ -1,0 +1,27 @@
+---
+# Install
+# - tmux
+# - tpm to manage plugins
+# - tmuxifier
+
+# Install tmux
+- name: install tmux
+  apt:
+    name: tmux
+    state: latest
+    update-cache: yes
+  become: yes
+
+# Install tpm
+- name: install tpm
+  git:
+    repo: https://github.com/tmux-plugins/tpm
+    dest: "{{ tpm_dir }}"
+
+# Install tmuxifier
+- name: install tmuxifier
+  git:
+    repo: https://github.com/jimeh/tmuxifier.git
+    dest: "{{ tmuxifier_dir }}"
+
+# vim: ft=ansible

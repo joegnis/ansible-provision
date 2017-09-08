@@ -1,0 +1,6 @@
+---
+vim_dir: "{{ remote_home }}/.vim"
+vim_dependencies:
+  - cscope  # for cscope plugin
+
+# vim: ft=ansible

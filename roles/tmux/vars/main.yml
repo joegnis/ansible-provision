@@ -1,0 +1,5 @@
+---
+tpm_dir: "{{ remote_home }}/.tmux/plugins/tpm"
+tmuxifier_dir: "{{ remote_home }}/.tmux/tmuxifier"
+
+# vim: ft=ansible

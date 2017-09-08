@@ -1,0 +1,51 @@
+---
+# Install
+# - bd
+# - ack, beyond grep
+# - thefuck, corrects your command
+
+# Update apt cache
+- name: update apt cache
+  apt:
+    update-cache: yes
+  become: yes
+
+# Install bd
+- name: install bd
+  get_url:
+    url: https://raw.github.com/vigneshwaranr/bd/master/bd
+    dest: /usr/local/bin/bd
+    mode: 0755
+  become: yes
+
+- name: install bash completion for bd
+  get_url:
+    url: https://raw.github.com/vigneshwaranr/bd/master/bash_completion.d/bd
+    dest: /etc/bash_completion.d/bd
+  become: yes
+
+# Install ack
+- name: install ack
+  apt:
+    name: ack-grep
+  become: yes
+
+# Install thefuck
+- name: install dependencies for thefuck
+  apt:
+    name: "{{ item }}"
+  become: yes
+  with_items:
+    - python3-pip
+    - python3-dev
+
+- name: install thefuck
+  pip:
+    name: "{{ item }}"
+    executable: /usr/bin/pip3
+  become: yes
+  with_items:
+    - psutil
+    - thefuck
+
+# vim: ft=ansible

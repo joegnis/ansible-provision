@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+    - common
+    - dotfiles
+    - bash
+    - zsh
+    - tmux
+    - python
+    - vim
+    - misc
+
+# vim: ft=ansible

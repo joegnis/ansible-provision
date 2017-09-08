@@ -1,0 +1,11 @@
+---
+aria2_dir_prefix: /opt
+aria2_dir_link: "{{ aria2_dir_prefix }}/aria2-build"
+aria2_build_url: https://github.com/q3aql/aria2-static-builds/releases/download/v1.32.0/aria2-1.32.0-linux-gnu-64bit-build1.tar.bz2
+aria2_secret_file: "{{ remote_home }}/.shell/secrets"
+aria2_config_dir: "{{ remote_home }}/.aria2"
+
+# diana
+diana_dir: "{{ user_local_src_dir }}/diana"
+
+# vim: ft=ansible

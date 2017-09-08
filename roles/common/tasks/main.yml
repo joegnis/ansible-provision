@@ -1,0 +1,11 @@
+---
+# Create necessary files
+- name: create directories needed
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ systemd_user_dir }}"
+    - "{{ user_local_bin_dir }}"
+    - "{{ user_local_src_dir }}"

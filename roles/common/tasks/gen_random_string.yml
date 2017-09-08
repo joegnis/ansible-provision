@@ -1,0 +1,9 @@
+---
+# Generate {num} of random strings and register the result
+
+- name: generate a random string
+  command: /usr/bin/python2 -c
+    "from __future__ import print_function; import string,random; uni=string.ascii_letters+string.digits; [print(''.join([random.SystemRandom().choice(uni) for i in range(random.randint(45,50))])) for _ in range( {{ num|default(1) }} )]"
+  register: random_str_ret
+
+# vim: ft=ansible

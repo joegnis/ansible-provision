@@ -1,0 +1,6 @@
+---
+antigen_dir: "{{ remote_home }}/.zsh/antigen"
+antigen_src_dir: "{{ antigen_dir }}/src"
+antigen_src_file: "{{ antigen_src_dir}}/antigen.zsh"
+
+# vim: ft=ansible

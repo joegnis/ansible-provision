@@ -1,0 +1,16 @@
+---
+remote_home: "{{ ansible_user_dir }}"
+local_user_id: "{{ lookup('env', 'USER') }}"
+local_home: /home/{{ local_user_id }}
+
+# secret settings, e.g. aria2 token
+secret_file: "{{ remote_home }}/.shell/secrets"
+
+# systemd user units dir
+systemd_user_dir: "{{ remote_home }}/.config/systemd/user"
+
+# local dirs
+user_local_bin_dir: "{{ remote_home }}/.local/bin"
+user_local_src_dir: "{{ remote_home }}/.local/src"
+
+# vim: ft=ansible

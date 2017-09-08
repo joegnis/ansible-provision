@@ -1,0 +1,41 @@
+---
+# Install zsh and antigen (manage zsh plugins)
+# antigen setting is included in dotfiles
+
+- name: install zsh
+  apt:
+    name: zsh
+    update_cache: yes
+    state: latest
+  become: yes
+
+- name: make zsh the default shell
+  shell: chsh -s $(which zsh) {{ ansible_user_id }}
+  become: yes
+
+- name: install dependencies for antigen
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - git
+    - curl
+
+- name: create directories for antigen
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ antigen_dir}}"
+    - "{{ antigen_src_dir }}"
+
+- name: install antigen
+  get_url:
+    url: https://git.io/antigen
+    dest: "{{ antigen_src_file }}"
+
+- name: install zsh plugins
+  command: zsh -c "source ~/.zshrc; antigen update"
+
+# vim: ft=ansible
