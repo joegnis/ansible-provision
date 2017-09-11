@@ -15,7 +15,7 @@
 - name: add pop-theme PPA
   apt_repository:
     repo: "ppa:system76/pop"
-    state: present
+    state: latest
     update_cache: yes
   become: yes
 

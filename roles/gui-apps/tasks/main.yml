@@ -1,0 +1,25 @@
+---
+# Install GUI apps
+# * Chromium
+#   * uget
+
+# Install Chromium and related stuff
+- name: add uGet repo
+  apt_repository:
+    repo: "ppa:plushuang-tw/uget-stable"
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install Chromium and related stuff
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  become: yes
+  with_items:
+    - chromium-browser
+    - chrome-gnome-shell
+    - uget
+
+# vi: ft=ansible
