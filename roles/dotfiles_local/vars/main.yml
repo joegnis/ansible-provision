@@ -1,6 +1,8 @@
 ---
+dotfiles_local_parent_dir: "{{ remote_home }}/Projects"
 dotfiles_local_dir: "{{ remote_home }}/Projects/dotfiles_local"
-dotfiles_local_repo: "https://github.com/joegnis/dotfiles_local"
+dotfiles_local_repo: "https://github.com/joegnis/dotfiles-local"
+dotfiles_local_version: ubuntu-gnome
 
 debug: false
 

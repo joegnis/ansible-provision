@@ -5,7 +5,7 @@
 
 - name: create directory for dotfiles_local
   file:
-    path: "{{ dotfiles_local_dir }}"
+    path: "{{ dotfiles_local_parent_dir }}"
     state: directory
     recurse: yes
 
@@ -15,11 +15,11 @@
     state: absent
   when: not debug
 
-- name: copy dotfiles_local from repo
+- name: pull dotfiles_local from repo
   git:
     repo: "{{ dotfiles_local_repo }}"
     dest: "{{ dotfiles_local_dir }}"
-    force: yes
+    version: "{{ dotfiles_local_version }}"
   when: not debug
 
 - name: copy dotfiles_local from local to the remote
