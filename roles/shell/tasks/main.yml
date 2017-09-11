@@ -1,0 +1,11 @@
+---
+# Commons for bash and zsh
+# Install
+# * dircolors-solarized
+
+- name: install dircolors-solarized
+  git:
+    repo: https://github.com/seebi/dircolors-solarized
+    dest: "{{ user_local_src_dir }}/dircolors-solarized"
+
+# vi: ft=ansible
