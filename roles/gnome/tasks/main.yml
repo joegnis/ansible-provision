@@ -1,15 +1,16 @@
 ---
 # Install GNOME-related softwares and configure it
-# * Install pop-theme, and enable the themes in GNOME
-# * Install folder-color
-# * Install Tweak Tool
-# * Install dconf Editor
-# * Install extra/official GNOME shell extensions
+# * pop-theme, and enable the themes in GNOME
+# * folder-color
+# * Tweak Tool
+# * dconf Editor
+# * extra/official GNOME shell extensions
 #   * clipboard-indicator
 #   * OpenWeather
 #   * TopIcons-plus
-# * Install solarized theme for GNOME Terminal
+# * solarized theme for GNOME Terminal
 # * Install and Configure gedit
+# * xclip, X selctions
 
 # Install pop-theme
 - name: add pop-theme PPA
@@ -187,5 +188,14 @@
   command: dbus-launch gsettings set org.gnome.gedit.preferences.editor
     {{ item.key }} {{ item.value }}
   with_items: "{{ gedit_preferences }}"
+
+# Install xclip
+- name: install xclip
+  apt:
+    name: xclip
+    state: latest
+    update_cache: yes
+  become: yes
+  tags: debug
 
 # vi: ft=ansible
