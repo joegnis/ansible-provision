@@ -1,0 +1,30 @@
+---
+# Install Meslo DZ for Powerline
+
+- name: create directory for Meslo DZ (Powerline)
+  file:
+    path: /usr/share/fonts/truetype/meslo
+    state: directory
+  become: yes
+
+- name: install Meslo DZ (Powerline)
+  get_url:
+    url: "https://github.com/powerline/fonts/raw/master/Meslo%20Dotted/{{ item }}.ttf"
+    dest: /usr/share/fonts/truetype/meslo
+  with_items:
+    - Meslo%20LG%20L%20DZ%20Bold%20Italic%20for%20Powerline
+    - Meslo%20LG%20L%20DZ%20Bold%20for%20Powerline
+    - Meslo%20LG%20L%20DZ%20Italic%20for%20Powerline
+    - Meslo%20LG%20L%20DZ%20Regular%20for%20Powerline
+    - Meslo%20LG%20M%20DZ%20Bold%20Italic%20for%20Powerline
+    - Meslo%20LG%20M%20DZ%20Bold%20for%20Powerline
+    - Meslo%20LG%20M%20DZ%20Italic%20for%20Powerline
+    - Meslo%20LG%20M%20DZ%20Regular%20for%20Powerline
+    - Meslo%20LG%20S%20DZ%20Bold%20Italic%20for%20Powerline
+    - Meslo%20LG%20S%20DZ%20Bold%20for%20Powerline
+    - Meslo%20LG%20S%20DZ%20Italic%20for%20Powerline
+    - Meslo%20LG%20S%20DZ%20Regular%20for%20Powerline
+  become: yes
+  notify: update font cache
+
+# vi: ft=ansible

@@ -1,0 +1,33 @@
+---
+# Install Fira Fonts
+- name: create a temporary directory for Fira fonts
+  tempfile:
+    state: directory
+  register: tempdir_ret
+
+- name: download Fira fonts
+  unarchive:
+    src: https://github.com/mozilla/Fira/archive/4.202.tar.gz
+    dest: "{{ tempdir_ret.path }}"
+    remote_src: yes
+
+- name: create directory for Fira fonts
+  file:
+    path: /usr/share/fonts/truetype/fira
+    state: directory
+  become: yes
+
+- name: fetch all Fira fonts that will be installed
+  shell: ls {{ tempdir_ret.path }}/Fira-4.202/ttf/*.ttf
+  register: ls_ret
+
+- name: install Fira fonts
+  copy:
+    src: "{{ item }}"
+    dest: /usr/share/fonts/truetype/fira
+    remote_src: yes
+  with_items: "{{ ls_ret.stdout_lines }}"
+  become: yes
+  notify: update font cache
+
+# vi: ft=ansible

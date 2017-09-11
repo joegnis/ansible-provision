@@ -1,0 +1,78 @@
+---
+# Install fonts
+# * mscorefonts
+# * Google Noto, including CJK
+# * Firefox Fira, including CJK
+# * Roboto Slab, all three are for Pop-theme
+# * Meslo Dotted for Powerline
+# * Powerline symbol and configuration
+#
+# Configure
+# * fonts in gsettings
+# * fontconfig
+
+# Install mscorefonts
+- name: install mscorefonts
+  shell: echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula
+    select true | debconf-set-selections ;
+    apt-get install -y ttf-mscorefonts-installer
+  become: yes
+
+# Install Noto fonts
+- include: install_noto.yml
+
+# Install Fira fonts
+- include: install_fira.yml
+
+# Install Roboto Slab
+- include: install_roboto_slab.yml
+
+# Install Meslo DZ for Powerline
+- include: install_meslo_dz_powerline.yml
+
+# Install font config file
+- name: create directory for font config file
+  file:
+    path: "{{ remote_home }}/.config/fontconfig"
+    state: directory
+
+- name: install font config file
+  copy:
+    src: fonts.conf
+    dest: "{{ remote_home }}/.config/fontconfig"
+    backup: yes
+  notify: update font cache
+
+# Set fonts in gsettings
+- name: set fonts in gsettings
+  command: dbus-launch gsettings set {{ item }}
+  with_items:
+    # Document font
+    - org.gnome.desktop.interface document-font-name 'Roboto Slab 11'
+    # Interface font
+    - org.gnome.desktop.interface font-name 'Fira Sans Semi-Light 10'
+    # Mono font
+    - org.gnome.desktop.interface monospace-font-name 'Meslo LG S DZ for Powerline 11'
+    # Window title font
+    - org.gnome.desktop.wm.preferences titlebar-font 'Fira Sans Semi-Bold 10'
+
+# Set up Powerline symbol font and fontconfig
+- name: install Powerline symbol font
+  get_url:
+    url: https://github.com/powerline/powerline/raw/develop/font/PowerlineSymbols.otf
+    dest: /usr/share/fonts
+  become: yes
+
+- name: create the directory for the Powerline fontconfig
+  file:
+    path: "{{ remote_home }}/.config/fontconfig/conf.d"
+    state: directory
+
+- name: install the fontconfig for Powerline
+  get_url:
+    url: https://github.com/powerline/powerline/raw/develop/font/10-powerline-symbols.conf
+    dest: "{{ remote_home }}/.config/fontconfig/conf.d"
+    backup: yes
+  notify: update font cache
+
+# vi: ft=ansible

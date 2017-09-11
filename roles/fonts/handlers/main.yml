@@ -1,0 +1,5 @@
+---
+- name: update font cache
+  command: fc-cache -f
+
+# vi: ft=ansible

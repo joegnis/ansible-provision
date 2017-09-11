@@ -1,0 +1,26 @@
+---
+# List of official GNOME shell extensions to enable (from gnome-shell-extensions)
+# Except for user-theme
+official_gnome_shell_extensions:
+  - 'alternate-tab@gnome-shell-extensions.gcampax.github.com'
+  - 'apps-menu@gnome-shell-extensions.gcampax.github.com'
+  - 'launch-new-instance@gnome-shell-extensions.gcampax.github.com'
+  - 'places-menu@gnome-shell-extensions.gcampax.github.com'
+
+gnome_shell_extensions_dir: "{{ remote_home }}/.local/share/gnome-shell/extensions"
+
+gedit_preferences:
+  - { key: auto-indent, value: "true" }
+  - { key: display-line-numbers, value: "true" }
+  - { key: display-right-margin, value: "true" }
+  - { key: display-overview-map, value: "true" }
+  - { key: highlight-current-line, value: "true" }
+  - { key: insert-spaces, value: "true" }
+  - { key: right-margin-position, value: 79 }
+  - { key: scheme, value: solarized-dark }
+  - { key: tabs-size, value: 4 }
+  - { key: use-default-font, value: "true" }
+  - { key: wrap-last-split-mode, value: word }
+  - { key: wrap-mode, value: word }
+
+# vi: ft=ansible

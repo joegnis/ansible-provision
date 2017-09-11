@@ -1,0 +1,62 @@
+---
+# Install Google Noto fonts, including CJK and Emoji
+
+- name: install required packages for installing fonts
+  apt:
+    name: unzip
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install most of them from packages
+- name: install Google Noto fonts
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - fonts-noto
+    - fonts-noto-cjk
+  become: yes
+
+# Install Noto Emoji font
+- name: create a temporary directory for Noto Emoji fonts
+  tempfile:
+    state: directory
+  register: tempdir_ret
+
+- name: create directories for Noto Emoji fonts
+  file:
+    path: "{{ tempdir_ret.path }}/{{ item }}"
+    state: directory
+  with_items:
+    - NotoColorEmoji-unhinted
+    - NotoEmoji-unhinted
+
+- name: download Noto Emoji fonts
+  unarchive:
+    src: https://noto-website.storage.googleapis.com/pkgs/{{ item }}.zip
+    dest: "{{ tempdir_ret.path }}/{{ item }}"
+    remote_src: yes
+  with_items:
+    - NotoColorEmoji-unhinted
+    - NotoEmoji-unhinted
+
+- name: create directory for Noto Emoji fonts
+  file:
+    path: /usr/share/fonts/truetype/noto
+    state: directory
+  become: yes
+
+- name: install Noto Emoji fonts
+  copy:
+    src: "{{ item }}"
+    dest: /usr/share/fonts/truetype/noto
+    remote_src: yes
+  with_items:
+    - "{{ tempdir_ret.path }}/NotoColorEmoji-unhinted/NotoColorEmoji.ttf"
+    - "{{ tempdir_ret.path }}/NotoEmoji-unhinted/NotoEmoji-Regular.ttf"
+  become: yes
+  notify: update font cache
+
+# vi: ft=ansible

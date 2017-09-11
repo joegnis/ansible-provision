@@ -1,0 +1,38 @@
+---
+# Failed to install latest gnome-shell-extension-openweather
+# Put here for backup
+
+- name: install dependencies for OpenWeather extension
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - dconf-cli
+    - gettext
+    - pkg-config
+    - git
+    - libglib2.0-0
+    - libglib2.0-dev
+    - zip
+    - gnome-common
+    - autoconf
+    - automake
+    - gnome-tweak-tool
+  become: yes
+
+- name: get OpenWeather extension
+  git:
+    repo: git://github.com/jenslody/gnome-shell-extension-openweather.git
+    dest: "{{ user_local_src_dir }}/gnome-shell-extension-openweather"
+
+- name: install OpenWeather extension (Phase 1)
+  command: ./autogen.sh
+  args:
+
+- name: install OpenWeather extension (Phase 2)
+  make:
+    chdir: "{{ user_local_src_dir }}/gnome-shell-extension-openweather"
+    target: local-install
+
+# vi: ft=ansible

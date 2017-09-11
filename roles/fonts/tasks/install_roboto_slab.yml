@@ -1,0 +1,22 @@
+---
+# Install Roboto Slab fonts
+
+- name: create directory for Roboto Slab
+  file:
+    path: /usr/share/fonts/truetype/roboto
+    state: directory
+  become: yes
+
+- name: install Roboto Slab
+  get_url:
+    url: "https://github.com/jenskutilek/free-fonts/raw/master/Roboto/Roboto%20Slab/TTF/{{ item }}.ttf"
+    dest: /usr/share/fonts/truetype/roboto
+  with_items:
+    - RobotoSlab-Bold
+    - RobotoSlab-Light
+    - RobotoSlab-Regular
+    - RobotoSlab-Thin
+  become: yes
+  notify: update font cache
+
+# vi: ft=ansible

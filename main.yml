@@ -1,13 +1,18 @@
 ---
 - hosts: all
   roles:
+    # same as ubuntu-base
     - common
     - dotfiles
     - bash
     - zsh
+    - shell
     - tmux
     - python
     - vim
     - misc
+    # specific to gnome
+    - fonts
+    - gnome
 
 # vim: ft=ansible

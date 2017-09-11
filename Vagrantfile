@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
+  # config.vm.box = "kurron/xenial-x64-gnome-desktop" # ssh won't work
   config.vm.box = "bento/ubuntu-16.04"
 
   # Disable automatic box update checking. If you disable this, then
@@ -55,6 +56,7 @@ Vagrant.configure("2") do |config|
   # information on available options.
 
   config.vm.provider "virtualbox" do |vb|
+    vb.gui = true
     # Customize the amount of memory on the VM:
     vb.memory = 1024
     vb.name = "Dev for ansible-provision"
@@ -70,10 +72,22 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  # config.vm.provision "shell", inline: <<-SHELL
-  #   apt-get update
-  #   apt-get install -y apache2
-  # SHELL
+  # Install a minimal GNOME
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install -y xserver-xorg xserver-xorg-core xfonts-base xinit \
+        --no-install-recommends
+    apt-get install -y x11-xserver-utils gnome-session gnome-shell gnome-terminal \
+        gnome-control-center nautilus \
+        --no-install-recommends
+    apt-get install -y gdm3 \
+        --no-install-recommends
+  SHELL
+
+  # Reboot the machine (need to install plugin vagrant-reboot)
+  # After that, login with password "vagrant"
+  config.vm.provision :reload
+
   config.vm.provision "ansible" do |ansible|
     ansible.inventory_path = "hosts"
     ansible.limit = "local_vagrant"
