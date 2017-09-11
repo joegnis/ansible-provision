@@ -4,12 +4,14 @@
     # same as ubuntu-base
     - common
     - dotfiles
+    - shell
     - bash
     - zsh
     - shell
     - tmux
     - python
     - vim
+    - aria2
     - misc
     # specific to gnome
     - fonts
