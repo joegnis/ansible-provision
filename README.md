@@ -30,6 +30,8 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
 * [`bash-it`](https://github.com/Bash-it/bash-it)
 * `zsh`
   * [`antigen`](https://github.com/zsh-users/antigen)
+* bash and zsh
+  * `dircolors`
 * `Python`
   * `pyenv` and `pyenv-virtualenv`
 * `Vim` and dozens of plugins
