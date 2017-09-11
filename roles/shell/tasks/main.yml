@@ -10,7 +10,7 @@
 
 - name: install dircolors-solarized
   file:
-    src: "{{ user_local_src_dir }}/dircolors-solarized/dircolors.ansi-dark"
+    src: "{{ user_local_src_dir }}/dircolors-solarized/dircolors.{{ dircolors_solarized_version }}"
     dest: "{{ remote_home }}/.dircolors"
     state: link
 
