@@ -1,0 +1,39 @@
+---
+# Pull dotfiles_local from either local machine (for dev) or a repo
+# Params:
+# - debug: boolean, pull from local or repo, default to false
+
+- name: create directory for dotfiles_local
+  file:
+    path: "{{ dotfiles_local_dir }}"
+    state: directory
+    recurse: yes
+
+- name: clean dotfiles_local
+  file:
+    path: "{{ dotfiles_local_dir }}"
+    state: absent
+  when: not debug
+
+- name: copy dotfiles_local from repo
+  git:
+    repo: "{{ dotfiles_local_repo }}"
+    dest: "{{ dotfiles_local_dir }}"
+    force: yes
+  when: not debug
+
+- name: copy dotfiles_local from local to the remote
+  synchronize:
+    src: "{{ local_dotfiles_local_dir }}/"
+    dest: "{{ dotfiles_local_dir }}"
+    checksum: yes
+    delete: yes
+  when: debug
+
+- name: install dotfiles_local
+  command: "./install"
+  args:
+    chdir:
+      "{{ dotfiles_local_dir }}"
+
+# vim: ft=ansible
