@@ -3,9 +3,15 @@
 # Install
 # * dircolors-solarized
 
-- name: install dircolors-solarized
+- name: download dircolors-solarized
   git:
     repo: https://github.com/seebi/dircolors-solarized
     dest: "{{ user_local_src_dir }}/dircolors-solarized"
+
+- name: install dircolors-solarized
+  file:
+    src: "{{ user_local_src_dir }}/dircolors-solarized/dircolors.ansi-dark"
+    dest: "{{ remote_home }}/.dircolors"
+    state: link
 
 # vi: ft=ansible
