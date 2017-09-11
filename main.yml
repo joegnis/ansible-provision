@@ -3,11 +3,13 @@
   roles:
     - common
     - dotfiles
+    - shell
     - bash
     - zsh
     - tmux
     - python
     - vim
+    - aria2
     - misc
 
 # vim: ft=ansible
