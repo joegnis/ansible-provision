@@ -23,4 +23,19 @@ gedit_preferences:
   - { key: wrap-last-split-mode, value: word }
   - { key: wrap-mode, value: word }
 
+extra_gnome_settings:
+  - schema: org.gnome.desktop.interface
+    key: gtk-theme
+    value: Pop-dark
+  - schema: org.gnome.desktop.interface
+    key: clock-show-date
+    value: "true"
+  - schema: org.gnome.desktop.interface
+    key: enable-animations
+    value: "false"
+  # Map CAPS to CTRL
+  - schema: org.gnome.desktop.input-sources
+    key: xkb-options
+    value: "\"@as ['caps:ctrl_modifier']\""
+
 # vi: ft=ansible
