@@ -19,7 +19,9 @@
     depth: 1
 
 - name: install bash-it
-  command: ./install.sh --no-modify-config --silent
+  shell: |
+    export BASH_IT_AUTOMATIC_RELOAD_AFTER_CONFIG_CHANGE=
+    ./install.sh --no-modify-config --silent
   args:
     chdir: "{{ bash_it_dir }}"
 
