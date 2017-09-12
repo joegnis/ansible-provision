@@ -5,6 +5,12 @@
 # * Firefox
 # * Atom
 # * Dropbox
+# * Albert
+
+- name: create necessary directory
+  file:
+    path: "{{ remote_home }}/.config/autostart"
+    state: directory
 
 # Install Chromium and related stuff
 - name: add uGet repo
@@ -34,20 +40,43 @@
   become: yes
   with_items:
     - firefox
-  tags: debug
 
 # Install Atom
 - name: instal Atom editor
   apt:
     deb: https://github.com/atom/atom/releases/download/v1.19.7/atom-amd64.deb
   become: yes
-  tags: debug
 
 # Install Dropbox
 - name: install Dropbox
   apt:
     deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
   become: yes
-  tags: debug
+
+- name: setup autostart of Dropbox
+  file:
+    src: /usr/share/applications/dropbox.desktop
+    dest: "{{ remote_home }}/.config/autostart/dropbox.desktop"
+    state: link
+
+# Install Albert
+- name: add Albert repo
+  apt_repository:
+    repo: ppa:nilarimogard/webupd8
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install Albert
+  apt:
+    name: albert
+    state: latest
+  become: yes
+
+- name: setup autostart of Dropbox
+  file:
+    src: /usr/share/applications/albert.desktop
+    dest: "{{ remote_home }}/.config/autostart/albert.desktop"
+    state: link
 
 # vi: ft=ansible
