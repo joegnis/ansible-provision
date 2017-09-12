@@ -32,12 +32,16 @@
     dest: "{{ pyenv_dir }}"
 
 - name: install Python 2
-  shell: pyenv install -s {{ py2_version }}
+  shell: |
+    export PYTHON_CONFIGURE_OPTS="--enable-shared"
+    pyenv install -s {{ py2_version }}
   args:
     executable: /bin/bash
 
 - name: install Python 3
-  shell: pyenv install -s {{ py3_version }}
+  shell: |
+    export PYTHON_CONFIGURE_OPTS="--enable-shared"
+    pyenv install -s {{ py3_version }}
   args:
     executable: /bin/bash
 
