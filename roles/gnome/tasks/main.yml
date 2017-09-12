@@ -16,7 +16,7 @@
 - name: add pop-theme PPA
   apt_repository:
     repo: "ppa:system76/pop"
-    state: latest
+    state: present
     update_cache: yes
   become: yes
 
@@ -196,6 +196,5 @@
     state: latest
     update_cache: yes
   become: yes
-  tags: debug
 
 # vi: ft=ansible
