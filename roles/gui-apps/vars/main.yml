@@ -1,0 +1,5 @@
+---
+rhythmbox_settings:
+  - schema: org.gnome.rhythmbox.rhythmdb
+    key: monitor-library
+    value: "true"

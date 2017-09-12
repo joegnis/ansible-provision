@@ -6,6 +6,9 @@
 # * Atom
 # * Dropbox
 # * Albert
+# * Git GUI
+# * Transmission
+# * Rhythmbox
 
 - name: create necessary directory
   file:
@@ -48,6 +51,13 @@
   become: yes
 
 # Install Dropbox
+- name: install dependencies for Dropbox
+  apt:
+    name: python-gpgme
+    state: latest
+    update_cache: yes
+  become: yes
+
 - name: install Dropbox
   apt:
     deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
@@ -78,5 +88,85 @@
     src: /usr/share/applications/albert.desktop
     dest: "{{ remote_home }}/.config/autostart/albert.desktop"
     state: link
+
+- name: install Git GUI
+  apt:
+    name: gitk
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install gnome-mpv
+- name: add PPA of gnome-mpv
+  apt_repository:
+    repo: ppa:xuzhen666/gnome-mpv
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Install gnome-mpv
+  apt:
+    name: gnome-mpv
+    state: latest
+  become: yes
+
+# Install and Configure Rhythmbox
+- name: install Rhythmbox
+  apt:
+    name: rhythmbox
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: configure Rhythmbox (Phase 1)
+  command: dbus-launch gsettings set {{ item.schema }} {{ item.key }} {{ item.value }}
+  with_items: "{{ rhythmbox_settings }}"
+
+- name: configure Rhythmbox (Phase 2)
+  script: add_item_to_gsettings_array.sh
+    org.gnome.rhythmbox.rhythmdb
+    locations
+    file://{{ remote_home }}/Music/mp3_files
+
+- name: download Rhythmbox playlists import and export plugin
+  git:
+    repo: https://github.com/petko10/rhythmbox-plugin-playlists-import-export
+    dest: "{{ user_local_src_dir }}/rhythmbox-plugin-playlists-import-export"
+
+- name: install dependencies for the plugin
+  apt:
+    name: gir1.2-gconf-2.0
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: install the plugin (Phase 1)
+  shell: |
+    SCRIPT_PATH="{{ user_local_src_dir }}/rhythmbox-plugin-playlists-import-export/"
+    PLUGIN_PATH="${HOME}/.local/share/rhythmbox/plugins/playlists_ie/"
+    mkdir -p $PLUGIN_PATH
+    cp -r "${SCRIPT_PATH}"* "$PLUGIN_PATH"
+    rm "${PLUGIN_PATH}install.sh"
+
+- name: install the plugin (Phase 2)
+  shell: |
+    PLUGIN_PATH="{{ remote_home }}/.local/share/rhythmbox/plugins/playlists_ie/"
+    GLIB_SCHEME="org.gnome.rhythmbox.plugins.playlists_ie.gschema.xml"
+    GLIB_DIR="/usr/share/glib-2.0/schemas/"
+    cp "${PLUGIN_PATH}${GLIB_SCHEME}" "$GLIB_DIR"
+    glib-compile-schemas "$GLIB_DIR"
+  become: yes
+
+- name: enable the plugin in Rhythmbox
+  script: add_item_to_gsettings_array.sh
+    org.gnome.rhythmbox.plugins
+    active-plugins
+    playlists_ie
+
+- name: configure the plugin
+  command: dbus-launch gsettings set
+    org.gnome.rhythmbox.plugins.playlists_ie
+    ie-folder
+    {{ remote_home }}/Music/playlists/rhythmbox
 
 # vi: ft=ansible
