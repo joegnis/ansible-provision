@@ -1,9 +1,9 @@
 ---
 - hosts: all
   roles:
-    # same as ubuntu-base
     - common
     - dotfiles
+    - dotfiles_local  # machine specific dotfiles
     - shell
     - bash
     - zsh
@@ -13,8 +13,8 @@
     - vim
     - aria2
     - misc
-    # specific to gnome
     - fonts
     - gnome
+    - gui-apps
 
 # vim: ft=ansible
