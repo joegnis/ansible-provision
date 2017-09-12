@@ -2,9 +2,6 @@
 # Install
 # - bash
 # - bash-it
-#
-# When installing bash-it, don't need to run install.sh because the settings are
-# set in my dotfiles.
 
 - name: install dependencies for bash-it
   apt:
@@ -15,10 +12,15 @@
 
 - include: common_tasks/create_dir.yml dir="{{ bash_it_dir }}"
 
-- name: install bash-it
+- name: download bash-it
   git:
     repo: https://github.com/Bash-it/bash-it.git
     dest: "{{ bash_it_dir }}"
     depth: 1
+
+- name: install bash-it
+  command: ./install.sh --no-modify-config --silent
+  args:
+    chdir: "{{ bash_it_dir }}"
 
 # vim: ft=ansible
