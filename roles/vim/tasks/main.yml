@@ -33,4 +33,6 @@
 - name: install vim plugins
   command: vim -c PlugUpdate -c quitall
 
+- include: install_ycm.yml vim_plugin_dir="{{ vim_dir }}/plugged"
+
 # vim: ft=ansible

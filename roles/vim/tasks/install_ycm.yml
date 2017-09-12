@@ -1,0 +1,24 @@
+---
+# Install YCM plugin for vim
+# Use Python at ~/.pyenv/shims/python
+# Prerequisite:
+# * plugin already downloaded by vim-plug
+# * vim_plugin_dir variable is set
+
+- name: install dependencies for YCM
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  become: yes
+  with_items:
+    - build-essential
+    - cmake
+    - python-dev
+    - python3-dev
+
+- name: Compile YCM with C-family support
+  command: "{{ remote_home }}/.pyenv/shims/python install.py --clang-completer"
+  args:
+    chdir: "{{ vim_plugin_dir }}/YouCompleteMe"
+  register: cmd_ret
