@@ -1,0 +1,2 @@
+---
+texlive_profile_path: "{{ remote_home }}/.texlive/texlive.profile"

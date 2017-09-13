@@ -1,0 +1,44 @@
+---
+# Install
+# * TeXLive
+# * Pandoc
+# Requirement: define texlive_profile_path variable.
+
+- name: install dependencies for texlive installer
+  apt:
+    name: perl-tk  # GUI
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: create temporary directory for texlive installer
+  tempfile:
+    state: directory
+  register: tempdir_ret
+
+- name: download the installer
+  unarchive:
+    src: http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+    dest: "{{ tempdir_ret.path }}"
+    remote_src: yes
+
+- name: find the installation script
+  find:
+    paths: "{{ tempdir_ret.path }}"
+    patterns: "install-tl"
+    recurse: yes
+  register: find_ret
+
+- name: install texlive
+  command: "{{ find_ret.files.0.path }} -no-gui -profile {{ texlive_profile_path }}"
+  become: yes
+
+# Install Pandoc
+- name: install Pandoc
+  apt:
+    name: pandoc
+    state: latest
+    update_cache: yes
+  become: yes
+
+# vi: ft=ansible

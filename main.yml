@@ -16,5 +16,6 @@
     - fonts
     - gnome
     - gui-apps
+    - office
 
 # vim: ft=ansible
