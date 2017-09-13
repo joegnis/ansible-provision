@@ -19,43 +19,60 @@
     - fonts-noto-cjk
   become: yes
 
-# Install Noto Emoji font
-- name: create a temporary directory for Noto Emoji fonts
+# Install Noto fonts
+- name: create a temporary directory for Noto fonts
   tempfile:
     state: directory
   register: tempdir_ret
 
-- name: create directories for Noto Emoji fonts
-  file:
-    path: "{{ tempdir_ret.path }}/{{ item }}"
-    state: directory
-  with_items:
-    - NotoColorEmoji-unhinted
-    - NotoEmoji-unhinted
-
-- name: download Noto Emoji fonts
+- name: download Noto fonts
   unarchive:
     src: https://noto-website.storage.googleapis.com/pkgs/{{ item }}.zip
-    dest: "{{ tempdir_ret.path }}/{{ item }}"
+    dest: "{{ tempdir_ret.path }}"
     remote_src: yes
   with_items:
     - NotoColorEmoji-unhinted
     - NotoEmoji-unhinted
+    - NotoSerifCJKsc-hinted
 
-- name: create directory for Noto Emoji fonts
+- name: create directories for fonts
   file:
-    path: /usr/share/fonts/truetype/noto
+    path: "{{ item }}"
     state: directory
+  with_items:
+    - /usr/share/fonts/truetype/noto
+    - /usr/share/fonts/opentype/noto
   become: yes
 
-- name: install Noto Emoji fonts
+- name: find truetype Noto fonts
+  find:
+    paths: "{{ tempdir_ret.path }}"
+    patterns: "*.ttf"
+    recurse: yes
+  register: find_ttf_ret
+
+- name: install truetype Noto fonts
   copy:
-    src: "{{ item }}"
+    src: "{{ item.path }}"
     dest: /usr/share/fonts/truetype/noto
     remote_src: yes
-  with_items:
-    - "{{ tempdir_ret.path }}/NotoColorEmoji-unhinted/NotoColorEmoji.ttf"
-    - "{{ tempdir_ret.path }}/NotoEmoji-unhinted/NotoEmoji-Regular.ttf"
+  with_items: "{{ find_ttf_ret.files }}"
+  become: yes
+  notify: update font cache
+
+- name: find opentype Noto fonts
+  find:
+    paths: "{{ tempdir_ret.path }}"
+    patterns: "*.otf"
+    recurse: yes
+  register: find_otf_ret
+
+- name: install opentype Noto fonts
+  copy:
+    src: "{{ item.path }}"
+    dest: /usr/share/fonts/opentype/noto
+    remote_src: yes
+  with_items: "{{ find_otf_ret.files }}"
   become: yes
   notify: update font cache
 
