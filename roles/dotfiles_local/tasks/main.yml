@@ -3,6 +3,13 @@
 # Params:
 # - debug: boolean, pull from local or repo, default to false
 
+- name: install necessary packages
+  apt:
+    name: git
+    state: latest
+    update_cache: yes
+  become: yes
+
 - name: create directory for dotfiles_local
   file:
     path: "{{ dotfiles_local_parent_dir }}"
