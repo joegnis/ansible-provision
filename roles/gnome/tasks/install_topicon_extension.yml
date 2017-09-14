@@ -1,0 +1,22 @@
+---
+# Install/Enable TopIcon extension
+- name: install dependencies for TopIcon-plus extension
+  apt:
+    name: make
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: get TopIcon-plus extension
+  git:
+    repo: https://github.com/phocean/TopIcons-plus
+    dest: "{{ user_local_src_dir }}/TopIcons-plus"
+
+- name: install TopIcon-plus extension
+  make:
+    chdir: "{{ user_local_src_dir }}/TopIcons-plus"
+    target: install
+
+- name: enable TopIcon-plus extension
+  command: dbus-launch "{{ gnome_shell_ext_enable_script }}" "TopIcons@phocean.net"
+

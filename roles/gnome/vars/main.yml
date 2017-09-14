@@ -23,6 +23,11 @@ gedit_preferences:
   - { key: wrap-last-split-mode, value: word }
   - { key: wrap-mode, value: word }
 
+input_sources_settings:
+  - schema: org.gnome.desktop.input-sources
+    key: show-all-sources
+    value: "true"
+
 extra_gnome_settings:
   - schema: org.gnome.desktop.interface
     key: gtk-theme

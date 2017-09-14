@@ -7,11 +7,12 @@
 # * extra/official GNOME shell extensions
 #   * clipboard-indicator
 #   * OpenWeather
-#   * TopIcons-plus
+#   - TopIcons-plus
 # * solarized theme for GNOME Terminal
 # * Install and Configure gedit
 # * xclip, X selctions
 # * Disable lid switch (laptop)
+# * Set up input sources
 # * Set extra GNOME settings
 
 # Install pop-theme
@@ -86,7 +87,7 @@
     - dconf-editor
 
 # Install Folder Color
-- name: add Foler Color PPA
+- name: add Folder Color PPA
   apt_repository:
     repo: ppa:costales/folder-color
     state: present
@@ -120,27 +121,6 @@
 - name: enable gnome-shell-extension-weather
   command: dbus-launch "{{ gnome_shell_ext_enable_script }}"
     "openweather-extension@jenslody.de"
-
-# Install/Enable TopIcon extension
-- name: install dependencies for TopIcon-plus extension
-  apt:
-    name: make
-    state: latest
-    update_cache: yes
-  become: yes
-
-- name: get TopIcon-plus extension
-  git:
-    repo: https://github.com/phocean/TopIcons-plus
-    dest: "{{ user_local_src_dir }}/TopIcons-plus"
-
-- name: install TopIcon-plus extension
-  make:
-    chdir: "{{ user_local_src_dir }}/TopIcons-plus"
-    target: install
-
-- name: enable TopIcon-plus extension
-  command: dbus-launch "{{ gnome_shell_ext_enable_script }}" "TopIcons@phocean.net"
 
 # Install solarized theme for GNOME Terminal
 - name: install dependencies for GNOME Terminal profile
@@ -206,6 +186,24 @@
     regexp: '^#HandleLidSwitch='
     line: 'HandleLidSwitch=ignore'
   become: yes
+
+# Set up input sources
+- name: install Rime input method
+  apt:
+    name: ibus-rime
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: add Rime to input sources
+  script: common_files/add_item_to_gsettings_array.sh
+    org.gnome.desktop.input-sources
+    sources
+    "('ibus', 'rime')"
+
+- name: set input method settings in GSettings
+  command: dbus-launch gsettings set {{ item.schema }} {{ item.key }} {{ item.value }}
+  with_items: "{{ input_sources_settings }}"
 
 # Set extra GNOME settings
 - name: set extra GNOME settings
