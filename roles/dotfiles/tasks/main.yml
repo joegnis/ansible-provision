@@ -3,6 +3,13 @@
 # Params:
 # - debug: boolean, pull from local or repo, default to false
 
+- name: install necessary packages
+  apt:
+    name: git
+    state: latest
+    update_cache: yes
+  become: yes
+
 - include: common_tasks/create_dir.yml dir="{{ dotfiles_dir }}"
 
 - name: clean dotfiles
