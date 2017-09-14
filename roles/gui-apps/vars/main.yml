@@ -3,3 +3,17 @@ rhythmbox_settings:
   - schema: org.gnome.rhythmbox.rhythmdb
     key: monitor-library
     value: "true"
+
+gnome_favorite_apps:
+  - 'chromium-browser.desktop'
+  - 'firefox.desktop'
+  - 'org.gnome.Nautilus.desktop'
+  - 'org.gnome.Terminal.desktop'
+  - 'atom.desktop'
+  - 'rhythmbox.desktop'
+  - 'io.github.GnomeMpv.desktop'
+  - 'gnome-system-monitor.desktop'
+  - 'telegramdesktop.desktop'
+  - 'org.gnome.Screenshot.desktop'
+  - 'goldendict.desktop'
+  - 'org.gnome.gedit.desktop'
