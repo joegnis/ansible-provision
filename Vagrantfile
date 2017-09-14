@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
   # config.vm.box = "kurron/xenial-x64-gnome-desktop" # ssh won't work
-  config.vm.box = "bento/ubuntu-16.04"
+  config.vm.box = "bento/ubuntu-17.04"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -92,6 +92,8 @@ Vagrant.configure("2") do |config|
     ansible.inventory_path = "hosts"
     ansible.limit = "local_vagrant"
     ansible.playbook = "main.yml"
+    #ansible.playbook = "dev.yml"
+    #ansible.skip_tags = "skip"
   end
 
   # Remove this machine from SSH known_hosts after destroying it
