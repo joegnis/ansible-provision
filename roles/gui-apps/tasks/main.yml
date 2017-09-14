@@ -139,7 +139,7 @@
   with_items: "{{ rhythmbox_settings }}"
 
 - name: configure Rhythmbox (Phase 2)
-  script: common_files/add_item_to_gsettings_array.sh
+  script: common_files/gsettings_array.sh add
     org.gnome.rhythmbox.rhythmdb
     locations
     file://{{ remote_home }}/Music/mp3_files
@@ -174,7 +174,7 @@
   become: yes
 
 - name: enable the plugin in Rhythmbox
-  script: common_files/add_item_to_gsettings_array.sh
+  script: common_files/gsettings_array.sh add
     org.gnome.rhythmbox.plugins
     active-plugins
     playlists_ie

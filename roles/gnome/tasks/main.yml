@@ -197,7 +197,7 @@
   become: yes
 
 - name: add Rime to input sources
-  script: common_files/add_item_to_gsettings_array.sh
+  script: common_files/gsettings_array.sh add
     org.gnome.desktop.input-sources
     sources
     "('ibus', 'rime')"
