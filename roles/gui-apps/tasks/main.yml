@@ -6,9 +6,17 @@
 # * Atom
 # * Dropbox
 # * Albert
+# * gnome-mpv
 # * Git GUI
 # * Transmission
 # * Rhythmbox
+# * Corebird
+# * GoldenDict
+# * MComix
+# * SMPlayer
+# * Telegram Desktop
+# * Zeal
+# * VirtualBox
 
 - name: create necessary directory
   file:
@@ -110,6 +118,14 @@
     state: latest
   become: yes
 
+# Install Transmission
+- name: install Transmission
+  apt:
+    name: transmission
+    state: latest
+    update_cache: yes
+  become: yes
+
 # Install and Configure Rhythmbox
 - name: install Rhythmbox
   apt:
@@ -123,7 +139,7 @@
   with_items: "{{ rhythmbox_settings }}"
 
 - name: configure Rhythmbox (Phase 2)
-  script: add_item_to_gsettings_array.sh
+  script: common_files/add_item_to_gsettings_array.sh
     org.gnome.rhythmbox.rhythmdb
     locations
     file://{{ remote_home }}/Music/mp3_files
@@ -158,7 +174,7 @@
   become: yes
 
 - name: enable the plugin in Rhythmbox
-  script: add_item_to_gsettings_array.sh
+  script: common_files/add_item_to_gsettings_array.sh
     org.gnome.rhythmbox.plugins
     active-plugins
     playlists_ie
@@ -168,5 +184,77 @@
     org.gnome.rhythmbox.plugins.playlists_ie
     ie-folder
     {{ remote_home }}/Music/playlists/rhythmbox
+
+# Install Corebird
+- name: add Corebird PPA
+  apt_repository:
+    repo: ppa:ubuntuhandbook1/corebird
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install Corebird
+  apt:
+    name: corebird
+    state: latest
+  become: yes
+
+# Install GoldenDict
+- name: install GoldenDict
+  apt:
+    name: goldendict
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install MComix
+- name: install MComix
+  apt:
+    name: mcomix
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install SMPlayer
+- name: add SMPlayer PPA
+  apt_repository:
+    repo: ppa:rvm/smplayer
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install SMPlayer
+  apt:
+    name: smplayer
+    state: latest
+  become: yes
+
+# Install Telegram Desktop
+- name: add Telegram Desktop PPA
+  apt_repository:
+    repo: ppa:atareao/telegram
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install Telegram Desktop
+  apt:
+    name: telegram
+    state: latest
+  become: yes
+
+# Install Zeal
+- name: install Zeal
+  apt:
+    name: zeal
+    state: latest
+  become: yes
+
+# Install VirtualBox
+- name: install VirtualBox
+  apt:
+    name: virtualbox
+    state: latest
+  become: yes
 
 # vi: ft=ansible
