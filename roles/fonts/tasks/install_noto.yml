@@ -9,7 +9,7 @@
   become: yes
 
 # Install most of them from packages
-- name: install Google Noto fonts
+- name: install Google Noto fonts from official packages
   apt:
     name: "{{ item }}"
     state: latest
