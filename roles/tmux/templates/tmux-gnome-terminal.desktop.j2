@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Encoding=UTF-8
+Name=tmux in Terminal
+Comment=Run a tmux session in Terminal
+TryExec={{ remote_home }}/.tmux/tmuxifier/bin/tmuxifier
+Exec=gnome-terminal --hide-menubar --full-screen -e '{{ remote_home }}/.tmux/tmuxifier/bin/tmuxifier load-session default'
+Icon={{ remote_home }}/Pictures/logos/tmux-logomark.svg
+Terminal=true

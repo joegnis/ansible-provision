@@ -3,6 +3,7 @@
 # - tmux
 # - tpm to manage plugins
 # - tmuxifier
+# - desktop file for GNOME and tmux
 
 # Install tmux
 - name: install tmux
@@ -23,5 +24,11 @@
   git:
     repo: https://github.com/jimeh/tmuxifier.git
     dest: "{{ tmuxifier_dir }}"
+
+# Create a desktop file for tmux and GNOME
+- name: create a desktop file for tmux
+  template:
+    src: tmux-gnome-terminal.desktop.j2
+    dest: "{{ remote_home }}/.local/share/applications/tmux-gnome-terminal.desktop"
 
 # vim: ft=ansible
