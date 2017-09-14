@@ -9,3 +9,16 @@
     - "{{ systemd_user_dir }}"
     - "{{ user_local_bin_dir }}"
     - "{{ user_local_src_dir }}"
+
+# Update the system
+- name: install aptitude
+  apt:
+    name: aptitude
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: update the system
+  apt:
+    upgrade: yes
+  become: yes
