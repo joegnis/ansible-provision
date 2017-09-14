@@ -10,7 +10,7 @@ in_array() {
 }
 
 array_str=$(gsettings get $schema $key)
-array_str="$( echo ${array_str:0:-1} )"  # delete trailing ']'
+array_str="${array_str:0:-1}"  # delete trailing ']'
 
 if [ "$array_str" != "@as [" ]; then  # if not an empty array
     delimiter=,  # Will need a ',' to add the item
@@ -26,8 +26,13 @@ if [ "$array_str" != "@as [" ]; then  # if not an empty array
     done <<<"$string,"
 
     # if same item already exists, nothing will change
-    in_array "'$item'" "${array[@]}" && exit
+    if [ "${item:0:1}" != '(' ] || [ "${item: -1}" != ')' ]; then
+      item="'$item'"
+    fi
+    in_array "$item" "${array[@]}" && exit
+else
+  item="'$item'"
 fi
 
-array_str="${array_str}${delimiter} '$item' ]"
+array_str="${array_str}${delimiter} $item ]"
 dbus-launch gsettings set $schema $key "$array_str"
