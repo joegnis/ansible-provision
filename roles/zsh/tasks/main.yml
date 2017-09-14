@@ -20,6 +20,7 @@
   with_items:
     - git
     - curl
+  become: yes
 
 - name: create directories for antigen
   file:
