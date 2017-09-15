@@ -80,12 +80,14 @@ case "$cmd" in
     add)
         # Get an array of current items
         string="$array_str"
+        ## Be careful about empty string
+        [ -n "$string" ] && string="$string,"
         array=()
         while read -rd,; do
             i="$( echo $REPLY |\
                   sed -e 's/^[[:space:]]*//' | sed -e 's/[[:space:]]*$//')"
             array+=("$i")
-        done <<<"$string,"
+        done <<<"$string"
 
         # Add remaining arguments to the array
         for item in "$@"; do
