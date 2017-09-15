@@ -1,18 +1,19 @@
 # Ansible-Provision
 
 My Ansible playbooks with all my faves to set up a `Ubuntu` machine.
-Tested on `Ubuntu 16.04`.
+Tested on `Ubuntu GNOME 17.04`.
 
 This repo properly install packages and pull the dotfiles
 (configuration files) from my another [repo](https://github.com/joegnis/dotfiles).
 It does NOT include dotfiles. It's supposed to work with dotfiles to work
 properly.
 
-## Table of Contents
+## [Table of Contents](#table-of-contents)
 
 * [Included Softwares](#included-softwares)
 * [Provisioning](#provisioning)
-  * [Prerequisites](#prerequisites)
+  * [Preparation on Remote Machine](#preparation-on-remote-machine)
+  * [Preparation on Host Machine](#preparation-on-host-machine)
   * [Add Target Machine to Hosts](#add-target-machine-to-hosts)
   * [Run a Playbook](#run-a-playbook)
 * [Development](#development)
@@ -48,15 +49,35 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
 
 ## Provisioning
 
-### Prerequisites
+### Preparation on Remote Machine
 
-Install [Ansible](http://docs.ansible.com/ansible/latest/intro_installation.html).
+1. Make sure the user is the administrator and let it sudo without password.
+Add a line to the file opened by running `sudo visudo`:
+
+        username ALL=(ALL) NOPASSWD: ALL
+
+2. Install `openssh-server` to allow remote connection:
+
+        sudo apt install openssh-server
+
+### Preparation on Host Machine
+
+1. Install SSH client.
+2. Create SSH keys if host doesn't have them.
+
+        ssh-keygen
+
+3. Try running `ssh user@remote_host` to comfirm SSH is working.
+4. Copy the public key to the remote
+
+        ssh-copy-id user@remote_host
 
 ### Add Target Machine to Hosts
 
-Put the machine's hostname (or nickname) in [`hosts`](hosts).
+Edit file [`hosts`](hosts) to match the machine's hostname (or nickname).
 
-And create a file with the same name as its hostname in [`host_vars/`](host_vars).
+And create a file named as the hostname in [`host_vars/`](host_vars),
+and add necessary variables.
 
 ### Run a Playbook
 
