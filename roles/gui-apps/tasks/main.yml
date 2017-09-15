@@ -27,10 +27,13 @@
 # Install Chromium and related stuff
 - name: add uGet repo
   apt_repository:
-    repo: "ppa:plushuang-tw/uget-stable"
+    repo: "{{ item }}"
     state: present
     update_cache: yes
   become: yes
+  with_items:
+    - "ppa:plushuang-tw/uget-stable"
+    - "ppa:slgobinath/uget-chrome-wrapper"
 
 - name: install Chromium and related stuff
   apt:
@@ -42,6 +45,7 @@
     - chromium-browser
     - chrome-gnome-shell
     - uget
+    - uget-chrome-wrapper
 
 # Install Firefox
 - name: install Firefox and related stuff
