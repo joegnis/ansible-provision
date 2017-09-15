@@ -6,10 +6,13 @@
 
 - name: install vim
   apt:
-    name: vim
+    name: "{{ item }}"
     state: latest
     update_cache: yes
   become: true
+  with_items:
+    - vim
+    - vim-gtk  # need this to support system clipboard in X11
 
 - include: common_tasks/create_dir.yml dir="{{ vim_dir }}"
 
