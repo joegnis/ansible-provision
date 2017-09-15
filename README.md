@@ -4,13 +4,16 @@ My Ansible playbooks with all my faves to set up a `Ubuntu` machine.
 Tested on `Ubuntu GNOME 17.04`.
 
 This repo properly install packages and pull the dotfiles
-(configuration files) from my another [repo](https://github.com/joegnis/dotfiles).
+(configuration files) from my other repos
+([dotfiles](https://github.com/joegnis/dotfiles) and
+[dotfiles\_local](https://github.com/joegnis/dotfiles_local).
 It does NOT include dotfiles. It's supposed to work with dotfiles to work
 properly.
 
 ## [Table of Contents](#table-of-contents)
 
 * [Included Softwares](#included-softwares)
+  * [Needed to Be Done Manually](#needed-to-be-done-manually)
 * [Provisioning](#provisioning)
   * [Preparation on Remote Machine](#preparation-on-remote-machine)
   * [Preparation on Host Machine](#preparation-on-host-machine)
@@ -28,6 +31,7 @@ I put major ones into individual roles and
 minor ones into [misc role](roles/misc/tasks/main.yml).
 
 * `dotfiles`
+* `dotfiles_local`, `ubuntu-gnome` branch
 * [`bash-it`](https://github.com/Bash-it/bash-it)
 * `zsh`
   * [`antigen`](https://github.com/zsh-users/antigen)
@@ -46,6 +50,35 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
   * `bd`
   * `ack`, beyond grep
   * `thefuck`, corrects my CMD mistakes
+* GNOME
+  * Themes
+  * Config tools
+  * Extensions
+  * Settings (using `gsettings` and `dconf`)
+  * Rime input method
+* Apps
+  * Chromium
+  * Firefox
+  * Atom
+  * Dropbox
+  * Albert
+  * Git GUI
+  * Transmission
+  * Rhythmbox
+  * Corebird
+  * GoldenDict
+  * MComix
+  * SMPlayer
+  * Telegram Desktop
+  * Zeal
+  * VirtualBox
+
+### Needed to Be Done Manually
+
+* Personal files
+  * Music and playlists (and import them in Rythmbox)
+* Setup Atom sync-settings package
+* Add dictionary files in GoldenDict
 
 ## Provisioning
 
@@ -80,6 +113,9 @@ And create a file named as the hostname in [`host_vars/`](host_vars),
 and add necessary variables.
 
 ### Run a Playbook
+
+ATTENTION: Better keep logged out when doing the provisioning, otherwise
+some GSettings may not be applied.
 
 Either run the main playbook like
 
