@@ -22,3 +22,6 @@
   apt:
     upgrade: yes
   become: yes
+
+# Reboot the system after updating
+- include: reboot-and-wait.yml
