@@ -77,12 +77,13 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
 
 * Personal files
   * Music and playlists (and import them in Rythmbox)
-* Setup Atom sync-settings package
+* Set up Atom sync-settings package
 * Add dictionary files in GoldenDict
+* Set up default applications
 
 ## Provisioning
 
-### Preparation on Remote Machine
+### Preparation on a Host Machine
 
 1. Make sure the user is the administrator and let it sudo without password.
 Add a line to the file opened by running `sudo visudo`:
@@ -93,10 +94,10 @@ Add a line to the file opened by running `sudo visudo`:
 
         sudo apt install openssh-server
 
-### Preparation on Host Machine
+### Preparation on the Control Machine
 
 1. Install SSH client.
-2. Create SSH keys if host doesn't have them.
+2. Create SSH keys if it doesn't have them.
 
         ssh-keygen
 
