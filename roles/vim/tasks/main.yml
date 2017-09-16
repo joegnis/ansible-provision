@@ -1,8 +1,11 @@
 ---
 # Install
-# - vim
-# - vim-plug and use it to install plugins
-# - apps required by plugins
+# * Vim
+# * vim-plug and use it to install plugins
+# * apps required by plugins
+# * Syntastic checkers
+#   * mdl, markdown
+#   * ShellCheck, shell script
 
 - name: install vim
   apt:
@@ -17,6 +20,7 @@
   file:
     path: "{{ vim_dir }}/autoload"
     state: directory
+
 # Vim plugins are listed in dotfiles
 - name: install vim-plug
   get_url:
@@ -32,5 +36,33 @@
 
 - name: install vim plugins
   command: vim -c PlugUpdate -c quitall
+
+- include: install_ycm.yml vim_plugin_dir="{{ vim_dir }}/plugged"
+
+# Install Syntastic checkers
+- name: install dependencies of Syntastic checkers
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  become: yes
+  with_items:
+    - ruby  # required by mdl
+
+## mdl
+- name: install markdown lint tool, mdl
+  gem:
+    name: mdl
+    state: latest
+    user_install: no
+  become: yes
+
+## ShellCheck
+- name: install shellcheck
+  apt:
+    name: shellcheck
+    state: latest
+    update_cache: yes
+  become: yes
 
 # vim: ft=ansible
