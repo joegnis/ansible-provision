@@ -11,6 +11,7 @@ properly.
 ## [Table of Contents](#table-of-contents)
 
 * [Included Softwares](#included-softwares)
+  * [Needed to be Done Manually](#needed-to-be-done-manually)
 * [Provisioning](#provisioning)
   * [Preparation on Remote Machine](#preparation-on-remote-machine)
   * [Preparation on Host Machine](#preparation-on-host-machine)
@@ -46,6 +47,14 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
   * `bd`
   * `ack`, beyond grep
   * `thefuck`, corrects my CMD mistakes
+
+### Needed to Be Done Manually
+
+* Backup and Restore SSH config file (`~/.ssh/config`)
+
+After provisioning on a new machine:
+
+* Regenerate SSH key and set up public key on several hosts
 
 ## Provisioning
 
@@ -149,7 +158,14 @@ roles:
 
 ### Debugging Tips
 
-To debug specific roles, create a separate playbook and include them only.
-
-To debug specific tasks, tag them with syntax `tags: debug` and run the playbook
+* To debug specific roles, create a separate playbook and include them only.
+* To debug specific tasks, tag them with syntax `tags: debug` and run the playbook
 with: `ansible-playbook -i hosts dev.yml --tags debug`.
+* To run the playbook locally, use one like:
+
+        - hosts: 127.0.0.1
+          connection: local
+          roles:
+            - common
+            - ...
+
