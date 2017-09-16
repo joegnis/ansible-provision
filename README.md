@@ -83,13 +83,16 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
   * Restore: Let it build the index after it the first boot
 * Backup and Restore Chrome Extensions data which are not synced by Google
   * OneTab
-  * uGet filter list
+  * uGet settings and extension filter list
   * ...
 
 After provisioning on a new machine:
 
 * Set up default applications
 * Regenerate SSH key and set up public key on several hosts
+* Remove the line added in the file opened by `sudo visudo`
+* (Optional) Install VirtualBox Extension Pack for USB 2.0 Support
+  * Version *must* match that of the VirtualBox installed. Download [here](https://www.virtualbox.org/wiki/Download_Old_Builds_5_1).
 
 ## Provisioning
 

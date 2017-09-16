@@ -69,9 +69,9 @@
     state: latest
   become: yes
 
-#- name: enable official shell extensions
-  #command: dbus-launch "{{ gnome_shell_ext_enable_script }}" "{{ item }}"
-  #with_items: "{{ official_gnome_shell_extensions }}"
+- name: enable official shell extensions
+  command: dbus-launch "{{ gnome_shell_ext_enable_script }}" "{{ item }}"
+  with_items: "{{ official_gnome_shell_extensions }}"
 
 # Enable pop Shell theme
 - name: set Shell theme
