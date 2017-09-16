@@ -75,11 +75,21 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
 
 ### Needed to Be Done Manually
 
-* Personal files
+* Backup and Restore SSH config file (`~/.ssh/config`)
+* Backup and Restore Personal files
   * Music and playlists (and import them in Rythmbox)
-* Set up Atom sync-settings package
-* Add dictionary files in GoldenDict
+* Backup and Restore Atom by using sync-settings package
+* Backup and Restore dictionaries in GoldenDict
+  * Restore: Let it build the index after it the first boot
+* Backup and Restore Chrome Extensions data which are not synced by Google
+  * OneTab
+  * uGet filter list
+  * ...
+
+After provisioning on a new machine:
+
 * Set up default applications
+* Regenerate SSH key and set up public key on several hosts
 
 ## Provisioning
 
@@ -186,7 +196,14 @@ roles:
 
 ### Debugging Tips
 
-To debug specific roles, create a separate playbook and include them only.
-
-To debug specific tasks, tag them with syntax `tags: debug` and run the playbook
+* To debug specific roles, create a separate playbook and include them only.
+* To debug specific tasks, tag them with syntax `tags: debug` and run the playbook
 with: `ansible-playbook -i hosts dev.yml --tags debug`.
+* To run the playbook locally, use one like:
+
+        - hosts: 127.0.0.1
+          connection: local
+          roles:
+            - common
+            - ...
+
