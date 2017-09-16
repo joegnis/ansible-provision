@@ -13,8 +13,8 @@ properly.
 * [Included Softwares](#included-softwares)
   * [Needed to be Done Manually](#needed-to-be-done-manually)
 * [Provisioning](#provisioning)
-  * [Preparation on Remote Machine](#preparation-on-remote-machine)
-  * [Preparation on Host Machine](#preparation-on-host-machine)
+  * [Preparation on a Host Machine](#preparation-on-a-host-machine)
+  * [Preparation on the Control Machine](#preparation-on-the-control-machine)
   * [Add Target Machine to Hosts](#add-target-machine-to-hosts)
   * [Run a Playbook](#run-a-playbook)
 * [Development](#development)
@@ -58,7 +58,7 @@ After provisioning on a new machine:
 
 ## Provisioning
 
-### Preparation on Remote Machine
+### Preparation on a Host Machine
 
 1. Make sure the user is the administrator and let it sudo without password.
 Add a line to the file opened by running `sudo visudo`:
@@ -69,10 +69,10 @@ Add a line to the file opened by running `sudo visudo`:
 
         sudo apt install openssh-server
 
-### Preparation on Host Machine
+### Preparation on the Control Machine
 
 1. Install SSH client.
-2. Create SSH keys if host doesn't have them.
+2. Create SSH keys if it doesn't have them.
 
         ssh-keygen
 
