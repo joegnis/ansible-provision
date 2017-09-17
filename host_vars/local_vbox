@@ -1,0 +1,4 @@
+---
+ansible_host: localhost
+ansible_user: yifan
+ansible_port: 2299
