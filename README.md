@@ -83,7 +83,10 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
   * Restore: Let it build the index after it the first boot
 * Backup and Restore Chrome Extensions data which are not synced by Google
   * OneTab
-  * uGet settings and extension filter list
+  * uGet wrapper
+  * Stylish
+  * Tampermonkey
+  * AdBlock
   * ...
 
 After provisioning on a new machine:
