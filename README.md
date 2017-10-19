@@ -75,13 +75,8 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
 
 ### Needed to Be Done Manually
 
-* Backup and Restore SSH config file (`~/.ssh/config`)
-* Backup and Restore Personal files
-  * Music and playlists (and import them in Rythmbox)
 * Backup and Restore Atom by using sync-settings package
-* Backup and Restore dictionaries in GoldenDict
-  * Restore: Let it build the index after it the first boot
-* Backup and Restore Chrome Extensions data which are not synced by Google
+* Backup and Restore Chrome Extensions data
   * OneTab
   * uGet wrapper
   * Stylish
@@ -93,6 +88,8 @@ After provisioning on a new machine:
 
 * Set up default applications
 * Regenerate SSH key and set up public key on several hosts
+  * Github
+  * NAS
 * Remove the line added in the file opened by `sudo visudo`
 * (Optional) Install VirtualBox Extension Pack for USB 2.0 Support
   * Version *must* match that of the VirtualBox installed. Download [here](https://www.virtualbox.org/wiki/Download_Old_Builds_5_1).
