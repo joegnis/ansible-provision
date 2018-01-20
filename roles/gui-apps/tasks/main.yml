@@ -207,6 +207,12 @@
   become: yes
 
 # Install MComix
+- name: install dependencies for MComix
+  apt:
+    name: unrar
+    state: latest
+  become: yes
+
 - name: install MComix
   apt:
     name: mcomix
