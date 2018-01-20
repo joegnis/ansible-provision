@@ -1,7 +1,7 @@
 # Ansible-Provision
 
 My Ansible playbooks with all my faves to set up a `Ubuntu` machine.
-Tested on `Ubuntu GNOME 17.04`.
+Tested on `Ubuntu GNOME 17.10`.
 
 This repo properly install packages and pull the dotfiles
 (configuration files) from my other repos
@@ -99,7 +99,7 @@ After provisioning on a new machine:
 ### Preparation on a Host Machine
 
 1. Make sure the user is the administrator and let it sudo without password.
-Add a line to the file opened by running `sudo visudo`:
+Add a line to the END of the file opened by running `sudo visudo`:
 
         username ALL=(ALL) NOPASSWD: ALL
 
