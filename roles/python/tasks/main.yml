@@ -24,7 +24,7 @@
     - tk-dev
   become: yes
 
-- include: common_tasks/create_dir.yml dir="{{ pyenv_dir }}"
+- include_tasks: common_tasks/create_dir.yml dir="{{ pyenv_dir }}"
 
 - name: install pyenv
   git:

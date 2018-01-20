@@ -63,10 +63,10 @@
   become: yes
 
 # Create config dir
-- include: common_tasks/create_dir.yml dir="{{ aria2_config_dir }}"
+- include_tasks: common_tasks/create_dir.yml dir="{{ aria2_config_dir }}"
 
 # Generate secret token
-- include: common_tasks/gen_random_string.yml
+- include_tasks: common_tasks/gen_random_string.yml
 
 # aria2 daemon for current user
 - name: set up systemd unit for aria2 on current user

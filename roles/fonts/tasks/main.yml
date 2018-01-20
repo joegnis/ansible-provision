@@ -19,16 +19,16 @@
   become: yes
 
 # Install Noto fonts
-- include: install_noto.yml
+- include_tasks: install_noto.yml
 
 # Install Fira fonts
-- include: install_fira.yml
+- include_tasks: install_fira.yml
 
 # Install Roboto Slab
-- include: install_roboto_slab.yml
+- include_tasks: install_roboto_slab.yml
 
 # Install Meslo DZ for Powerline
-- include: install_meslo_dz_powerline.yml
+- include_tasks: install_meslo_dz_powerline.yml
 
 # Install font config file
 - name: create directory for font config file

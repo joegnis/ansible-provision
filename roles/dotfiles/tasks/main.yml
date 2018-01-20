@@ -10,7 +10,7 @@
     update_cache: yes
   become: yes
 
-- include: common_tasks/create_dir.yml dir="{{ dotfiles_dir }}"
+- include_tasks: common_tasks/create_dir.yml dir="{{ dotfiles_dir }}"
 
 - name: clean dotfiles
   file:

@@ -10,7 +10,7 @@
     update_cache: yes
   become: yes
 
-- include: common_tasks/create_dir.yml dir="{{ bash_it_dir }}"
+- include_tasks: common_tasks/create_dir.yml dir="{{ bash_it_dir }}"
 
 - name: download bash-it
   git:
