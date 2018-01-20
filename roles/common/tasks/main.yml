@@ -22,6 +22,8 @@
   apt:
     upgrade: yes
   become: yes
+  register: update_result
 
 # Reboot the system after updating
 - include: reboot-and-wait.yml
+  when: update_result.changed == True
