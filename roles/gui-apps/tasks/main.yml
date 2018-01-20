@@ -9,8 +9,8 @@
 # * gnome-mpv
 # * Git GUI
 # * Transmission
+# * Transmission Remote GTK
 # * Rhythmbox
-# * Corebird
 # * GoldenDict
 # * MComix
 # * SMPlayer
@@ -131,6 +131,14 @@
     update_cache: yes
   become: yes
 
+# Install Transmission Remote GTK
+- name: install Transmission Remote GTK
+  apt:
+    name: transmission-remote-gtk
+    state: latest
+    update_cache: yes
+  become: yes
+
 # Install and Configure Rhythmbox
 - name: install Rhythmbox
   apt:
@@ -189,20 +197,6 @@
     org.gnome.rhythmbox.plugins.playlists_ie
     ie-folder
     {{ remote_home }}/Music/playlists/rhythmbox
-
-# Install Corebird
-- name: add Corebird PPA
-  apt_repository:
-    repo: ppa:ubuntuhandbook1/corebird
-    state: present
-    update_cache: yes
-  become: yes
-
-- name: install Corebird
-  apt:
-    name: corebird
-    state: latest
-  become: yes
 
 # Install GoldenDict
 - name: install GoldenDict
