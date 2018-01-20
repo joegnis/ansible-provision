@@ -1,4 +1,3 @@
 ---
-ansible_host: localhost
+ansible_host: yifan-VirtualBox.local
 ansible_user: yifan
-ansible_port: 2299
