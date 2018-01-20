@@ -1,0 +1,40 @@
+---
+# Install WineHQ
+
+- name: Enable i386 arch for WineHQ
+  command: dpkg --add-architecture i386
+  become: yes
+
+- name: Add WineHQ apt key
+  apt_key:
+    url: https://dl.winehq.org/wine-builds/Release.key
+    state: present
+  become: yes
+
+- name: Add WineHQ repository
+  apt_repository:
+    repo: deb https://dl.winehq.org/wine-builds/ubuntu/ artful main
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: Install WineHQ stable
+  apt:
+    name: winehq-stable
+    state: latest
+    install_recommends: yes
+  become: yes
+  ignore_errors: yes
+
+- name: Install WineHQ stable 2nd time  # Due to problem installing libsane
+  apt:
+    name: winehq-stable
+    state: latest
+    install_recommends: yes
+  become: yes
+
+- name: Install zh-hans lang pack for WineHQ
+  apt:
+    name: language-pack-zh-hans*
+    state: present
+  become: yes

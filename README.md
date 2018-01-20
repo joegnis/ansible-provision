@@ -83,6 +83,7 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
   * Tampermonkey
   * AdBlock
   * ...
+* Backup and reinstall Wine apps
 
 After provisioning on a new machine:
 
