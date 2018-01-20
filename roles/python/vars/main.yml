@@ -5,9 +5,13 @@ py2_version: 2.7.13
 py3_version: 3.5.4
 
 py2_packages:
+  - six
+  - future
   - ipython
   - flake8
 py3_packages:
+  - six
+  - future
   - ipython
   - flake8
 
