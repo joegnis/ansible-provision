@@ -30,9 +30,6 @@ input_sources_settings:
 
 extra_gnome_settings:
   - schema: org.gnome.desktop.interface
-    key: gtk-theme
-    value: Pop-dark
-  - schema: org.gnome.desktop.interface
     key: clock-show-date
     value: "true"
   - schema: org.gnome.desktop.interface

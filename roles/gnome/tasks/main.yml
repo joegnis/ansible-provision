@@ -1,20 +1,64 @@
 ---
 # Install GNOME-related softwares and configure it
+# * Tweak Tool and dconf Editor
+# * official GNOME shell extensions
+#   * Requires defining list: official_gnome_shell_extensions
 # * pop-theme, and enable the themes in GNOME
 # * folder-color
-# * Tweak Tool
-# * dconf Editor
-# * extra/official GNOME shell extensions
+# * extra GNOME shell extensions
 #   * clipboard-indicator
 #   * OpenWeather
-#   - TopIcons-plus
+#   * TopIcons-plus
 # * solarized theme for GNOME Terminal
-# * Install and Configure gedit
+# * Install and configure gedit
 # * xclip, X selctions
 # * Disable lid switch (laptop)
 # * Set up input sources
 #   * Install Rime input method
 # * Set extra GNOME settings
+
+# Install GNOME tweak tool and dconf-editor
+- name: install GNOME Tweak Tool and dconf Editor
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - gnome-tweak-tool
+    - dconf-editor
+
+# Prepare extension enabling script
+- name: create temporary directory for extension enabling script
+  tempfile:
+    state: directory
+  register: tempdir_ret
+
+- name: copy the script to the remote
+  copy:
+    src: enable-gnome-shell-extension.sh
+    dest: "{{ tempdir_ret.path }}"
+    mode: u+x
+  register: copy_ret
+
+- name: make the script file path global
+  set_fact:
+    gnome_shell_ext_enable_script: "{{ copy_ret.dest }}"
+
+# Install/Enable official extensions
+- name: install official shell extensions
+  apt:
+    name: gnome-shell-extensions
+    state: latest
+  become: yes
+
+- name: enable official shell extensions
+  command: dbus-launch "{{ gnome_shell_ext_enable_script }}" "{{ item }}"
+  with_items: "{{ official_gnome_shell_extensions }}"
+
+# Enable user-theme extension
+- name: enable user-theme extension
+  command: dbus-launch "{{ gnome_shell_ext_enable_script }}"
+    'user-theme@gnome-shell-extensions.gcampax.github.com'
 
 # Install pop-theme
 - name: add pop-theme PPA
@@ -41,51 +85,9 @@
     # Cursor theme
     - org.gnome.desktop.interface cursor-theme Pop
 
-# Prepare extension enabling script
-- name: create temporary directory for extension enabling script
-  tempfile:
-    state: directory
-  register: tempdir_ret
-
-- name: copy the script to the remote
-  copy:
-    src: enable-gnome-shell-extension.sh
-    dest: "{{ tempdir_ret.path }}"
-    mode: u+x
-  register: copy_ret
-
-- name: make the script file path global
-  set_fact:
-    gnome_shell_ext_enable_script: "{{ copy_ret.dest }}"
-
-- name: enable user-theme extension
-  command: dbus-launch "{{ gnome_shell_ext_enable_script }}"
-    'user-theme@gnome-shell-extensions.gcampax.github.com'
-
-# Install/Enable official extensions
-- name: install official shell extensions
-  apt:
-    name: gnome-shell-extensions
-    state: latest
-  become: yes
-
-- name: enable official shell extensions
-  command: dbus-launch "{{ gnome_shell_ext_enable_script }}" "{{ item }}"
-  with_items: "{{ official_gnome_shell_extensions }}"
-
 # Enable pop Shell theme
 - name: set Shell theme
   command: dbus-launch gsettings set org.gnome.shell.extensions.user-theme name Pop-dark
-
-# Install GNOME tweak tool and dconf-editor
-- name: install GNOME Tweak Tool and dconf Editor
-  apt:
-    name: "{{ item }}"
-    state: latest
-  become: yes
-  with_items:
-    - gnome-tweak-tool
-    - dconf-editor
 
 # Install Folder Color
 - name: add Folder Color PPA
