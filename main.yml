@@ -9,6 +9,7 @@
     - zsh
     - tmux
     - python
+    - node
     - vim
     - aria2
     - misc
@@ -16,5 +17,6 @@
     - gnome
     - gui-apps
     - office
+    - wine
 
 # vim: ft=ansible
