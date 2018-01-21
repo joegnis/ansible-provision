@@ -3,63 +3,11 @@
 # - latest aria2
 # - diana, aria2 cmd interface
 
-# Dependencies
-- name: install dependencies for installing aria2
-  apt:
-    name: make
-    state: latest
-    update_cache: yes
-  become: yes
-
-# Check if aria2 exists, if so, uninstall it
-- name: check if aria2 exists
-  stat:
-    path: "{{ aria2_dir_link }}"
-  register: stat_ret
-  become: yes
-
-- name: uninstall aria2 if it exists
-  make:
-    chdir: "{{ aria2_dir_link }}"
-    target: uninstall
-  become: yes
-  when: stat_ret.stat.exists and ( stat_ret.stat.islnk or stat_ret.stat.isdir )
-
 # Install aria2
-- name: download latest aria2 build
-  get_url:
-    url: "{{ aria2_build_url }}"
-    dest: "{{ aria2_dir_prefix }}"
-  register: download_ret
-  become: yes
-
-- name: unarchive the downloaded file
-  unarchive:
-    src: "{{ download_ret.dest }}"
-    dest: "{{ aria2_dir_prefix }}"
-    remote_src: yes
-    list_files: yes
-  register: unarchive_ret
-  become: yes
-
-- name: link to aria directory
-  file:
-    src: "{{ unarchive_ret.files.0 }}"
-    dest: "{{ aria2_dir_link }}"
-    state: link
-    force: yes
-  become: yes
-
 - name: install aria2
-  make:
-    chdir: "{{ aria2_dir_prefix }}/{{ unarchive_ret.files.0 }}"
-    target: install
-  become: yes
-
-- name: clean up downloaded files
-  file:
-    path: "{{ download_ret.dest }}"
-    state: absent
+  apt:
+    name: aria2
+    state: latest
   become: yes
 
 # Create config dir
