@@ -1,0 +1,134 @@
+---
+# Install multimedia GUI apps
+# * gnome-mpv
+# * Rhythmbox
+# * MComix
+# * SMPlayer
+# * Deadbeef
+# * Discord
+
+# Install gnome-mpv
+- name: add PPA of gnome-mpv
+  apt_repository:
+    repo: ppa:xuzhen666/gnome-mpv
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install gnome-mpv
+  apt:
+    name: gnome-mpv
+    state: latest
+  become: yes
+
+# Install and Configure Rhythmbox
+- name: install Rhythmbox
+  apt:
+    name: rhythmbox
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: configure Rhythmbox
+  command: dbus-launch gsettings set {{ item.schema }} {{ item.key }} {{ item.value }}
+  with_items: "{{ rhythmbox_settings }}"
+
+- name: configure Rhythmbox continued...
+  script: common_files/gsettings_array.sh add
+    org.gnome.rhythmbox.rhythmdb
+    locations
+    file://{{ remote_home }}/Music/mp3_files
+
+- name: download Rhythmbox playlists import and export plugin
+  git:
+    repo: https://github.com/petko10/rhythmbox-plugin-playlists-import-export
+    dest: "{{ user_local_src_dir }}/rhythmbox-plugin-playlists-import-export"
+
+- name: install dependencies for the plugin
+  apt:
+    name: gir1.2-gconf-2.0
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: install Rhythmbox playlist import-export plugin
+  shell: |
+    SCRIPT_PATH="{{ user_local_src_dir }}/rhythmbox-plugin-playlists-import-export/"
+    PLUGIN_PATH="${HOME}/.local/share/rhythmbox/plugins/playlists_ie/"
+    mkdir -p $PLUGIN_PATH
+    cp -r "${SCRIPT_PATH}"* "$PLUGIN_PATH"
+    rm "${PLUGIN_PATH}install.sh"
+
+- name: install Rhythmbox playlist import-export plugin continued...
+  shell: |
+    PLUGIN_PATH="{{ remote_home }}/.local/share/rhythmbox/plugins/playlists_ie/"
+    GLIB_SCHEME="org.gnome.rhythmbox.plugins.playlists_ie.gschema.xml"
+    GLIB_DIR="/usr/share/glib-2.0/schemas/"
+    cp "${PLUGIN_PATH}${GLIB_SCHEME}" "$GLIB_DIR"
+    glib-compile-schemas "$GLIB_DIR"
+  become: yes
+
+- name: enable the playlist import-export plugin in Rhythmbox
+  script: common_files/gsettings_array.sh add
+    org.gnome.rhythmbox.plugins
+    active-plugins
+    playlists_ie
+
+- name: configure the plugin
+  command: dbus-launch gsettings set
+    org.gnome.rhythmbox.plugins.playlists_ie
+    ie-folder
+    {{ remote_home }}/Music/playlists/rhythmbox
+
+# Install MComix
+- name: install dependencies for MComix
+  apt:
+    name: unrar
+    state: latest
+  become: yes
+
+- name: install MComix
+  apt:
+    name: mcomix
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install SMPlayer
+- name: add SMPlayer PPA
+  apt_repository:
+    repo: ppa:rvm/smplayer
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install SMPlayer
+  apt:
+    name: smplayer
+    state: latest
+  become: yes
+
+# Install DeaDBeeF
+- name: add repo of DeaDBeeF
+  apt_repository:
+    repo: 'ppa:starws-box/deadbeef-player'
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install DeaDBeeF
+  apt:
+    name: deadbeef
+    state: latest
+  become: yes
+
+# Install Discord (Snap)
+- name: install snap
+  apt:
+    name: snapd-xdg-open
+    state: latest
+  become: yes
+
+- name: install Discord
+  command: snap install discord
+  become: yes

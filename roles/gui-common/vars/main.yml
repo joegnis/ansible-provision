@@ -1,9 +1,4 @@
 ---
-rhythmbox_settings:
-  - schema: org.gnome.rhythmbox.rhythmdb
-    key: monitor-library
-    value: "true"
-
 gnome_favorite_apps:
   - 'chromium-browser.desktop'
   - 'firefox.desktop'

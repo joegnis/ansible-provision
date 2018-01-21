@@ -15,8 +15,9 @@
     - cmd
     - fonts
     - gnome
-    - gui-apps
+    - multimedia
     - office
     - wine
+    - gui-common  # put this role to the last 'cause it sets favorite apps in GNOME shell
 
 # vim: ft=ansible

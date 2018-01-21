@@ -1,0 +1,160 @@
+---
+# Install GUI apps
+# * Chromium
+# * Firefox
+# * Atom
+# * Dropbox
+# * Albert
+# * Git GUI
+# * Transmission
+# * Transmission Remote GTK
+# * GoldenDict
+# * Telegram Desktop
+# * Zeal
+# * VirtualBox
+# * Set GNOME favorite apps
+
+- name: create necessary directory
+  file:
+    path: "{{ remote_home }}/.config/autostart"
+    state: directory
+
+# Install Chromium and related stuff
+- name: install Chromium and related stuff
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  become: yes
+  with_items:
+    - chromium-browser
+    - chrome-gnome-shell
+
+# Install Firefox
+- name: install Firefox and related stuff
+  apt:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  become: yes
+  with_items:
+    - firefox
+
+# Install Atom
+- name: instal Atom editor
+  apt:
+    deb: https://github.com/atom/atom/releases/download/v1.19.7/atom-amd64.deb
+  become: yes
+
+# Install Dropbox
+- name: install dependencies for Dropbox
+  apt:
+    name: python-gpgme
+    state: latest
+    update_cache: yes
+  become: yes
+
+- name: install Dropbox
+  apt:
+    deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2015.10.28_amd64.deb
+  become: yes
+
+- name: setup autostart of Dropbox
+  file:
+    src: /usr/share/applications/dropbox.desktop
+    dest: "{{ remote_home }}/.config/autostart/dropbox.desktop"
+    state: link
+
+# Install Albert
+- name: add Albert repo
+  apt_repository:
+    repo: ppa:nilarimogard/webupd8
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install Albert
+  apt:
+    name: albert
+    state: latest
+  become: yes
+
+- name: setup autostart of Dropbox
+  file:
+    src: /usr/share/applications/albert.desktop
+    dest: "{{ remote_home }}/.config/autostart/albert.desktop"
+    state: link
+
+- name: install Git GUI
+  apt:
+    name: gitk
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install Transmission
+- name: install Transmission
+  apt:
+    name: transmission
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install Transmission Remote GTK
+- name: install Transmission Remote GTK
+  apt:
+    name: transmission-remote-gtk
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install GoldenDict
+- name: install GoldenDict
+  apt:
+    name: goldendict
+    state: latest
+    update_cache: yes
+  become: yes
+
+# Install Telegram Desktop
+- name: install Telegram
+  unarchive:
+    src: https://telegram.org/dl/desktop/linux
+    dest: "{{ remote_home }}/.local/share"
+    remote_src: yes
+
+- name: create a desktop file for Telegram
+  template:
+    src: telegramdesktop.desktop.j2
+    dest: "{{ remote_home }}/.local/share/applications/telegramdesktop.desktop"
+
+# Install Zeal
+- name: install Zeal
+  apt:
+    name: zeal
+    state: latest
+  become: yes
+
+# Install VirtualBox
+- name: install VirtualBox
+  apt:
+    name: virtualbox
+    state: latest
+  become: yes
+
+- name: add current user to vboxusers group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: vboxusers
+    append: yes
+  become: yes
+
+# PUT THE FOLLOWING TO THE VERY END
+# Set favorite apps in GNOME
+- name: set favorite apps in GNOME
+  script: common_files/gsettings_array.sh set
+    org.gnome.shell
+    favorite-apps
+    {{ gnome_favorite_apps|join(' ') }}
+
+# vi: ft=ansible
