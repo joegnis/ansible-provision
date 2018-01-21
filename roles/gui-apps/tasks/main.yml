@@ -17,6 +17,7 @@
 # * Telegram Desktop
 # * Zeal
 # * VirtualBox
+# * Deadbeef
 # * Set GNOME favorite apps
 
 - name: create necessary directory
@@ -265,6 +266,20 @@
     name: "{{ ansible_user_id }}"
     groups: vboxusers
     append: yes
+  become: yes
+
+# Install DeaDBeeF
+- name: add repo of DeaDBeeF
+  apt_repository:
+    repo: 'ppa:starws-box/deadbeef-player'
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install DeaDBeeF
+  apt:
+    name: deadbeef
+    state: latest
   become: yes
 
 # PUT THE FOLLOWING TO THE VERY END
