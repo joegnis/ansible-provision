@@ -20,58 +20,17 @@ properly.
   * [Add Target Machine to Hosts](#add-target-machine-to-hosts)
   * [Run a Playbook](#run-a-playbook)
 * [Development](#development)
-  * [Set up the environment](#set-up-the-environment)
+  * [Set Up the Environment](#set-up-the-environment)
+    * [Use Vagrant](#use-vagrant)
   * [Create a Separate Playbook for Debugging](#create-a-separate-playbook-for-debugging)
   * [Debugging dotfiles](#debugging-dotfiles)
   * [Debugging Tips](#debugging-tips)
 
 ## Included Softwares
 
-I put major ones into individual roles and
-minor ones into [misc role](roles/misc/tasks/main.yml).
+I roughly put apps into categories, each of which has its own Ansible role.
 
-* `dotfiles`
-* `dotfiles_local`, `ubuntu-gnome` branch
-* [`bash-it`](https://github.com/Bash-it/bash-it)
-* `zsh`
-  * [`antigen`](https://github.com/zsh-users/antigen)
-* bash and zsh
-  * `dircolors`
-* `Python`
-  * `pyenv` and `pyenv-virtualenv`
-* `Vim` and dozens of plugins
-* `Neovim` (in transition to it now...)
-* `tmux`
-  * plugins manager `tpm`
-  * session manager `tmuxifier`
-* `aria2` run as daemon
-  * CMD interface [`diana`](https://github.com/baskerville/diana)
-* misc
-  * `bd`
-  * `ack`, beyond grep
-  * `thefuck`, corrects my CMD mistakes
-* GNOME
-  * Themes
-  * Config tools
-  * Extensions
-  * Settings (using `gsettings` and `dconf`)
-  * Rime input method
-* Apps
-  * Chromium
-  * Firefox
-  * Atom
-  * Dropbox
-  * Albert
-  * Git GUI
-  * Transmission
-  * Rhythmbox
-  * Corebird
-  * GoldenDict
-  * MComix
-  * SMPlayer
-  * Telegram Desktop
-  * Zeal
-  * VirtualBox
+Check the file `tasks/main.yml` under each role for a list of apps.
 
 ### Needed to Be Done Manually
 
@@ -81,7 +40,7 @@ minor ones into [misc role](roles/misc/tasks/main.yml).
   * uGet wrapper
   * Stylish
   * Tampermonkey
-  * AdBlock
+  * AD Blocker
   * ...
 * Backup and reinstall Wine apps
 
@@ -92,6 +51,7 @@ After provisioning on a new machine:
   * Github
   * NAS
 * Remove the line added in the file opened by `sudo visudo`
+* Make sure the repositories source is reachable
 * (Optional) Install VirtualBox Extension Pack for USB 2.0 Support
   * Version *must* match that of the VirtualBox installed. Download [here](https://www.virtualbox.org/wiki/Download_Old_Builds_5_1).
 
@@ -122,9 +82,9 @@ Add a line to the END of the file opened by running `sudo visudo`:
 
 ### Add Target Machine to Hosts
 
-Edit file [`hosts`](hosts) to match the machine's hostname (or nickname).
+Edit file [`hosts`](hosts) to add a line of the machine's hostname.
 
-And create a file named as the hostname in [`host_vars/`](host_vars),
+And create a file named same as the hostname in [`host_vars/`](host_vars),
 and add necessary variables.
 
 ### Run a Playbook
@@ -135,37 +95,41 @@ some GSettings may not be applied.
 Either run the main playbook like
 
 ```bash
-ansible-playbook -i hosts main.yml --limit home_server
+ansible-playbook -i hosts main.yml --limit home_server --tags debug
 ```
 
-or create a separate one to run.
+or create a separate playbook to run.
 
 ## Development
 
-### Set up the environment
+### Set Up the Environment
 
-Install [Ansible](http://docs.ansible.com/ansible/latest/intro_installation.html),
-[Vagrant](https://www.vagrantup.com/docs/installation/) and
-[VirtualBox](https://www.virtualbox.org/wiki/Downloads). Run
+Need at least [Ansible](http://docs.ansible.com/ansible/latest/intro_installation.html)
+and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) to develop and test locally.
+
+If a corresponding [Vagrant](https://www.vagrantup.com/docs/installation/)
+[box](https://app.vagrantup.com/boxes/search) can be found, it would be the best because
+provisioning can be automated.
+
+#### Use Vagrant
+
+Start the VM and provision it (using the Vagrant file in the repo).
 
 ```bash
 vagrant up
 ```
 
-to bring Vagrant up. It will start the VM and provision it automatically.
-
 Optionally, install Vagrant plugin
 [vagrant-triggers](https://github.com/emyl/vagrant-triggers)
+to automatically remove the VM from SSH known\_hosts.
 
 ```bash
 vagrant plugin install vagrant-triggers
 ```
 
-to automatically remove the VM from SSH known\_hosts.
-
 ### Create a Separate Playbook for Debugging
 
-A playbook like this would be helpful. It limits hosts to the VM.
+A playbook like the following would be helpful for debugging. It limits hosts to the VM.
 
 ```yaml
 ---
@@ -173,12 +137,7 @@ A playbook like this would be helpful. It limits hosts to the VM.
   roles:
     - common
     - dotfiles
-    - bash
-    - zsh
-    - tmux
-    - python
-    - vim
-    - misc
+    - ...
 ```
 
 ### Debugging dotfiles
