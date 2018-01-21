@@ -9,6 +9,8 @@
 # - parallel
 # - 7zip
 # - mediainfo
+# - cowsay & lolcat
+# - lame
 
 # Update apt cache
 - name: update apt cache
@@ -42,6 +44,7 @@
 - name: install dependencies for thefuck
   apt:
     name: "{{ item }}"
+    state: latest
   become: yes
   with_items:
     - python3-pip
@@ -60,12 +63,14 @@
 - name: install tree
   apt:
     name: tree
+    state: latest
   become: yes
 
 # Install sshfs and samba-common
 - name: install sshfs, samba-common
   apt:
     name: "{{ item }}"
+    state: latest
   become: yes
   with_items:
     - sshfs
@@ -75,12 +80,14 @@
 - name: install parallel
   apt:
     name: parallel
+    state: latest
   become: yes
 
 # Install 7zip
 - name: install 7zip
   apt:
     name: "{{ item }}"
+    state: latest
   become: yes
   with_items:
     - p7zip-full
@@ -90,6 +97,24 @@
 - name: install mediainfo
   apt:
     name: mediainfo
+    state: latest
+  become: yes
+
+# Install cowsay & lolcat
+- name: install cowsay & lolcat
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - cowsay
+    - lolcat
+
+# Install lame
+- name: install lame
+  apt:
+    name: lame
+    state: latest
   become: yes
 
 # vim: ft=ansible

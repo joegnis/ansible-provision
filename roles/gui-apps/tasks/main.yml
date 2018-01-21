@@ -18,6 +18,7 @@
 # * Zeal
 # * VirtualBox
 # * Deadbeef
+# * Discord
 # * Set GNOME favorite apps
 
 - name: create necessary directory
@@ -280,6 +281,17 @@
   apt:
     name: deadbeef
     state: latest
+  become: yes
+
+# Install Discord (Snap)
+- name: install snap
+  apt:
+    name: snapd-xdg-open
+    state: latest
+  become: yes
+
+- name: install Discord
+  command: snap install discord
   become: yes
 
 # PUT THE FOLLOWING TO THE VERY END
