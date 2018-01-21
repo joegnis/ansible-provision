@@ -262,6 +262,13 @@
     state: latest
   become: yes
 
+- name: add current user to vboxusers group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: vboxusers
+    append: yes
+  become: yes
+
 # Set favorite apps in GNOME
 - name: set favorite apps in GNOME
   script: common_files/gsettings_array.sh set
