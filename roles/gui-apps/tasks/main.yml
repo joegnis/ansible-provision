@@ -235,18 +235,16 @@
   become: yes
 
 # Install Telegram Desktop
-- name: add Telegram Desktop PPA
-  apt_repository:
-    repo: ppa:atareao/telegram
-    state: present
-    update_cache: yes
-  become: yes
+- name: install Telegram
+  unarchive:
+    src: https://telegram.org/dl/desktop/linux
+    dest: "{{ remote_home }}/.local/share"
+    remote_src: yes
 
-- name: install Telegram Desktop
-  apt:
-    name: telegram
-    state: latest
-  become: yes
+- name: create a desktop file for Telegram
+  template:
+    src: telegramdesktop.desktop.j2
+    dest: "{{ remote_home }}/.local/share/applications/telegramdesktop.desktop"
 
 # Install Zeal
 - name: install Zeal
@@ -269,6 +267,7 @@
     append: yes
   become: yes
 
+# PUT THE FOLLOWING TO THE VERY END
 # Set favorite apps in GNOME
 - name: set favorite apps in GNOME
   script: common_files/gsettings_array.sh set
