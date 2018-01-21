@@ -3,6 +3,11 @@
 # - bd
 # - ack, beyond grep
 # - thefuck, corrects your command
+# - tree
+# - sshfs
+# - samba-common
+# - parallel
+# - 7zip
 
 # Update apt cache
 - name: update apt cache
@@ -49,5 +54,35 @@
   with_items:
     - psutil
     - thefuck
+
+# Install tree
+- name: install tree
+  apt:
+    name: tree
+  become: yes
+
+# Install sshfs and samba-common
+- name: install sshfs, samba-common
+  apt:
+    name: "{{ item }}"
+  become: yes
+  with_items:
+    - sshfs
+    - samba-common
+
+# Install parallel
+- name: install parallel
+  apt:
+    name: parallel
+  become: yes
+
+# Install 7zip
+- name: install 7zip
+  apt:
+    name: "{{ item }}"
+  become: yes
+  with_items:
+    - p7zip-full
+    - p7zip-rar
 
 # vim: ft=ansible
