@@ -8,6 +8,7 @@
 # - samba-common
 # - parallel
 # - 7zip
+# - mediainfo
 
 # Update apt cache
 - name: update apt cache
@@ -84,5 +85,11 @@
   with_items:
     - p7zip-full
     - p7zip-rar
+
+# Install mediainfo
+- name: install mediainfo
+  apt:
+    name: mediainfo
+  become: yes
 
 # vim: ft=ansible
