@@ -1,0 +1,25 @@
+---
+# Install apps for coding
+
+# Install OpenResty
+- name: add OpenResty apt key
+  apt_key:
+    url: https://openresty.org/package/pubkey.gpg
+    state: present
+  become: yes
+
+- name: add OpenResty repo
+  apt_repository:
+    repo: 'deb http://openresty.org/package/ubuntu artful main'
+    state: present
+    update_cache: yes
+  become: yes
+
+- name: install OpenResty
+  apt:
+    name: openresty
+    install_recommends: yes
+    state: latest
+  become: yes
+
+# vim: ft=ansible
