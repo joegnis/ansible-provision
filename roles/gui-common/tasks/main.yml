@@ -41,9 +41,14 @@
     - firefox
 
 # Install Atom
-- name: instal Atom editor
+- name: install snap
   apt:
-    deb: https://github.com/atom/atom/releases/download/v1.19.7/atom-amd64.deb
+    name: snapd-xdg-open
+    state: latest
+  become: yes
+
+- name: instal Atom
+  command: snap install --classic atom
   become: yes
 
 # Install Dropbox
