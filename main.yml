@@ -1,7 +1,7 @@
 ---
 - hosts: all
   roles:
-    - common
+    - pre-install
     - dotfiles
     - dotfiles_local  # machine specific dotfiles
     - shell
@@ -15,10 +15,11 @@
     - aria2
     - cmd
     - fonts
+    - gui-common
     - gnome
     - multimedia
     - office
     - wine
-    - gui-common  # put this role to the last 'cause it sets favorite apps in GNOME shell
+    - gui-post-install
 
 # vim: ft=ansible

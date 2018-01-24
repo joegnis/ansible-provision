@@ -1,5 +1,5 @@
 ---
 dependencies:
-  - common
+  - pre-install
   - python
   - dotfiles

@@ -1,6 +1,6 @@
 ---
 dependencies:
-  - common
+  - pre-install
   - dotfiles_local
   - python
   - vim

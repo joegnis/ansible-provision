@@ -12,7 +12,6 @@
 # * Telegram Desktop
 # * Zeal
 # * VirtualBox
-# * Set GNOME favorite apps
 
 - name: create necessary directory
   file:
@@ -153,13 +152,5 @@
     groups: vboxusers
     append: yes
   become: yes
-
-# PUT THE FOLLOWING TO THE VERY END
-# Set favorite apps in GNOME
-- name: set favorite apps in GNOME
-  script: common_files/gsettings_array.sh set
-    org.gnome.shell
-    favorite-apps
-    {{ gnome_favorite_apps|join(' ') }}
 
 # vi: ft=ansible

@@ -1,0 +1,5 @@
+---
+dependencies:
+  - gui-common
+  - gnome
+  - multimedia

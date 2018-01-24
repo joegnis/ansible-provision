@@ -1,0 +1,11 @@
+---
+# Tasks that are run after installing apps
+
+# Set favorite apps in GNOME
+- name: set favorite apps in GNOME
+  script: common_files/gsettings_array.sh set
+    org.gnome.shell
+    favorite-apps
+    {{ gnome_favorite_apps|join(' ') }}
+
+# vi: ft=ansible
