@@ -18,12 +18,4 @@
     state: latest
   become: yes
 
-# Install NodeJS packages
-- name: install npm package speed-test
-  npm:
-    name: speed-test
-    state: latest
-    global: yes
-  become: yes
-
 # vim: ft=ansible

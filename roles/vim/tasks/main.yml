@@ -6,6 +6,9 @@
 # * Syntastic checkers
 #   * mdl, markdown
 #   * ShellCheck, shell script
+#   * flake8, for Python
+#   * eslint, for HTML and Javascript
+#   * vint, for Vim script
 
 - name: install vim
   apt:
@@ -64,6 +67,36 @@
     name: shellcheck
     state: latest
     update_cache: yes
+  become: yes
+
+## flake8
+- name: install flake8
+  apt:
+    name: flake8
+    state: latest
+  become: yes
+
+## eslint
+- name: install eslint
+  npm:
+    name: eslint
+    state: latest
+    global: yes
+  become: yes
+
+## vint
+- name: install dependencies for vint
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - python3-pip
+
+- name: install vint
+  pip:
+    name: vim-vint
+    executable: /usr/bin/pip3
   become: yes
 
 # vim: ft=ansible

@@ -11,6 +11,7 @@
 # - mediainfo
 # - cowsay & lolcat
 # - lame
+# - speed-test
 
 # Update apt cache
 - name: update apt cache
@@ -115,6 +116,14 @@
   apt:
     name: lame
     state: latest
+  become: yes
+
+# Install speed-test
+- name: install speed-test
+  npm:
+    name: speed-test
+    state: latest
+    global: yes
   become: yes
 
 # vim: ft=ansible
