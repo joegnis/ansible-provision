@@ -4,5 +4,6 @@
   template:
     src: tmux-gnome-terminal.desktop.j2
     dest: "{{ remote_home }}/.local/share/applications/tmux-gnome-terminal.desktop"
+    mode: u+x
 
 # vim: ft=ansible

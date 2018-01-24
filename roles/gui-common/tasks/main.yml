@@ -132,6 +132,7 @@
   template:
     src: telegramdesktop.desktop.j2
     dest: "{{ remote_home }}/.local/share/applications/telegramdesktop.desktop"
+    mode: u+x
 
 # Install Zeal
 - name: install Zeal
