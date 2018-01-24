@@ -11,6 +11,7 @@
     - python
     - node
     - vim
+    - vim-ycm
     - aria2
     - cmd
     - fonts

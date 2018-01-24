@@ -1,5 +1,14 @@
 ---
 # Install NodeJS
+- name: install dependencies
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - git
+    - curl
+
 - name: add repo for NodeJS 8
   shell: curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 

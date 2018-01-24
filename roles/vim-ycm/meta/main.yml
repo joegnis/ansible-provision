@@ -1,5 +1,6 @@
 ---
 dependencies:
   - common
+  - dotfiles_local
   - python
-  - dotfiles
+  - vim

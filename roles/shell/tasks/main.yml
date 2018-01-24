@@ -3,6 +3,12 @@
 # Install
 # * dircolors-solarized
 
+- name: install dependencies
+  apt:
+    name: git
+    state: latest
+  become: yes
+
 - name: download dircolors-solarized
   git:
     repo: https://github.com/seebi/dircolors-solarized

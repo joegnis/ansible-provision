@@ -8,6 +8,7 @@
     state: latest
     update_cache: yes
   with_items:
+    - git
     - make
     - build-essential
     - libssl-dev

@@ -40,8 +40,6 @@
 - name: install vim plugins
   command: vim -c PlugUpdate -c quitall
 
-- include_tasks: install_ycm.yml vim_plugin_dir="{{ vim_dir }}/plugged"
-
 # Install Syntastic checkers
 - name: install dependencies of Syntastic checkers
   apt:

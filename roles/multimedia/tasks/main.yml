@@ -4,8 +4,14 @@
 # * Rhythmbox
 # * MComix
 # * SMPlayer
-# * Deadbeef
+# * DeaDBeeF
 # * Discord
+
+- name: install general dependencies
+  apt:
+    name: git
+    state: latest
+  become: yes
 
 # Install gnome-mpv
 - name: add PPA of gnome-mpv

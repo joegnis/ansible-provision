@@ -17,6 +17,12 @@
 #   * Install Rime input method
 # * Set extra GNOME settings
 
+- name: install general dependencies
+  apt:
+    name: git
+    state: latest
+  become: yes
+
 # Install GNOME tweak tool and dconf-editor
 - name: install GNOME Tweak Tool and dconf Editor
   apt:

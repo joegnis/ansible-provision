@@ -20,5 +20,5 @@
 - name: Compile YCM with C-family support
   command: "{{ remote_home }}/.pyenv/shims/python install.py --clang-completer"
   args:
-    chdir: "{{ vim_plugin_dir }}/YouCompleteMe"
+    chdir: "{{ vim_dir }}/plugged/YouCompleteMe"
   register: cmd_ret
