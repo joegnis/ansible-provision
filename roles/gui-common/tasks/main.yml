@@ -12,6 +12,7 @@
 # * Telegram Desktop
 # * Zeal
 # * VirtualBox
+# * TightVNC viewer
 
 - name: create necessary directory
   file:
@@ -152,5 +153,45 @@
     groups: vboxusers
     append: yes
   become: yes
+
+# Install TightVNC viewer
+- name: install dependencies of TightVNC viewer
+  apt:
+    name: openjdk-9-jre
+    state: latest
+  become: yes
+
+- name: create directory for TightVNC viewer
+  file:
+    path: "{{ item }}"
+    state: directory
+    recurse: yes
+  with_items:
+    - "{{ tightvnc_viewer_dir }}"
+    - "{{ remote_home }}/.local/share/icons"
+
+- name: create symlink to TightVNC directory
+  file:
+    path: "{{ user_local_src_dir }}/tightvnc-viewer"
+    src: "{{ tightvnc_viewer_dir }}"
+    state: link
+
+- name: download TightVNC viewer
+  unarchive:
+    src: https://www.tightvnc.com/download/2.8.3/tvnjviewer-2.8.3-bin-gnugpl.zip
+    dest: "{{ tightvnc_viewer_dir }}"
+    remote_src: yes
+
+- name: download TightVNC logo
+  get_url:
+    url: http://www.tightvnc.com/logo/tightvnc-logo-90x90.png
+    dest: "{{ remote_home }}/.local/share/icons/tightvnc.png"
+    force: yes
+
+- name: create TightVNC view desktop file
+  template:
+    src: tightvnc-viewer.desktop.j2
+    dest: "{{ remote_home }}/.local/share/applications/tightvnc-viewer.desktop"
+    mode: u+x
 
 # vi: ft=ansible

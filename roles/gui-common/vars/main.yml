@@ -1,0 +1,4 @@
+---
+tightvnc_viewer_dir: "{{ user_local_src_dir }}/tightvnc-viewer-2.8.3"
+
+# vi: ft=ansible
