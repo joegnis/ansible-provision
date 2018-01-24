@@ -6,6 +6,7 @@
 # * SMPlayer
 # * DeaDBeeF
 # * Discord
+# * Syncplay
 
 - name: install general dependencies
   apt:
@@ -137,4 +138,26 @@
 
 - name: install Discord
   command: snap install discord
+  become: yes
+
+# Install Syncplay
+- name: download Syncplay
+  unarchive:
+    src: https://github.com/Syncplay/syncplay/archive/v1.5.2-Beta3.tar.gz
+    dest: "{{ user_local_src_dir }}"
+    remote_src: yes
+
+- name: install dependencies of Syncplay
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - python-twisted
+    - python-pyside
+
+- name: install Syncplay
+  make:
+    chdir: "{{ user_local_src_dir }}/syncplay-1.5.2-Beta3"
+    target: install
   become: yes
