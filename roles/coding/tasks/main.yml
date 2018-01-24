@@ -10,7 +10,7 @@
 
 - name: add OpenResty repo
   apt_repository:
-    repo: 'deb http://openresty.org/package/ubuntu artful main'
+    repo: 'deb http://openresty.org/package/ubuntu {{ codename_result.stdout }} main'
     state: present
     update_cache: yes
   become: yes

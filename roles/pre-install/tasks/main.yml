@@ -10,6 +10,10 @@
     - "{{ user_local_bin_dir }}"
     - "{{ user_local_src_dir }}"
 
+- name: get Ubuntu codename
+  shell: ". /etc/lsb-release; echo $DISTRIB_CODENAME"
+  register: codename_result
+
 # Update the system
 - name: install aptitude
   apt:

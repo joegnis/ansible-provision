@@ -13,7 +13,7 @@
 
 - name: Add WineHQ repository
   apt_repository:
-    repo: deb https://dl.winehq.org/wine-builds/ubuntu/ artful main
+    repo: deb https://dl.winehq.org/wine-builds/ubuntu/ {{ codename_result.stdout }} main
     state: present
     update_cache: yes
   become: yes
