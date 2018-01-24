@@ -1,14 +1,14 @@
 # Ansible-Provision
 
-My Ansible playbooks with all my faves to set up a `Ubuntu` machine.
+My Ansible backup playbooks with all my favorite apps and their config
+to set up a freshly installed `Ubuntu` machine.
 Tested on `Ubuntu GNOME 17.10`.
 
 This repo properly install packages and pull the dotfiles
 (configuration files) from my other repos
 ([dotfiles](https://github.com/joegnis/dotfiles) and
 [dotfiles\_local](https://github.com/joegnis/dotfiles_local).
-It does NOT include dotfiles. It's supposed to work with dotfiles to work
-properly.
+It depends on dotfiles but does NOT include them.
 
 ## [Table of Contents](#table-of-contents)
 
@@ -34,6 +34,9 @@ Check the file `tasks/main.yml` under each role for a list of apps.
 
 ### Needed to Be Done Manually
 
+The following steps are not automated yet.
+
+* Backup and Restore personally files
 * Backup and Restore Atom by using sync-settings package
 * Backup and Restore Chrome Extensions data
   * OneTab
