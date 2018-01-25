@@ -1,5 +1,11 @@
 ---
 # Create a desktop file for tmux and GNOME
+- name: download tmux logo
+  get_url:
+    url: https://github.com/tmux/tmux/raw/master/logo/tmux-logomark.svg
+    dest: "{{ remote_home }}/.local/share/icons/tmux.svg"
+    force: yes
+
 - name: create a desktop file for tmux
   template:
     src: tmux-gnome-terminal.desktop.j2

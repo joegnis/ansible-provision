@@ -16,6 +16,7 @@
     - cmd
     - fonts
     - gui-common
+    - gui-tmux
     - gnome
     - multimedia
     - office
