@@ -1,1 +1,3 @@
+---
+dependencies:
   - dotfiles_local  # contains texlive configuration file
