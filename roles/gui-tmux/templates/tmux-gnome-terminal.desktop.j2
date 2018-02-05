@@ -3,6 +3,6 @@ Type=Application
 Name=tmux in Terminal
 Comment=Run a tmux session in Terminal
 TryExec={{ remote_home }}/.tmux/tmuxifier/bin/tmuxifier
-Exec=gnome-terminal --hide-menubar --full-screen -e "{{ remote_home }}/.tmux/tmuxifier/bin/tmuxifier load-session default"
+Exec=gnome-terminal --hide-menubar --maximize -e "{{ remote_home }}/.tmux/tmuxifier/bin/tmuxifier load-session default"
 Icon=tmux
 Terminal=true
