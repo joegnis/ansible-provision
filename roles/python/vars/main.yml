@@ -2,7 +2,7 @@
 pyenv_dir: "{{ remote_home }}/.pyenv"
 
 py2_version: 2.7.13
-py3_version: 3.5.4
+py3_version: 3.6.5
 
 py2_packages:
   - six
