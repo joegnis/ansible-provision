@@ -34,18 +34,7 @@ Check the file `tasks/main.yml` under each role for a list of apps.
 
 ### Needed to Be Done Manually
 
-The following steps are not automated yet.
-
-* Backup and Restore personally files
-* Backup and Restore Atom by using sync-settings package
-* Backup and Restore Chrome Extensions data
-  * OneTab
-  * uGet wrapper
-  * Stylish
-  * Tampermonkey
-  * AD Blocker
-  * ...
-* Backup and reinstall Wine apps
+Checkout personal notes.
 
 After provisioning on a new machine:
 
@@ -54,9 +43,8 @@ After provisioning on a new machine:
   * Github
   * NAS
 * Remove the line added in the file opened by `sudo visudo`
-* Make sure the repositories source is reachable
-* (Optional) Install VirtualBox Extension Pack for USB 2.0 Support
-  * Version *must* match that of the VirtualBox installed. Download [here](https://www.virtualbox.org/wiki/Download_Old_Builds_5_1).
+* Re-add VirtualBox VM
+  * Install VirtualBox Extension Pack for USB 2.0 Support. The version *must* match that of the VirtualBox installed. Download [here](https://www.virtualbox.org/wiki/Download_Old_Builds_5_1).
 
 ## Provisioning
 
@@ -71,6 +59,8 @@ Add a line to the END of the file opened by running `sudo visudo`:
 
         sudo apt install openssh-server
 
+3. Install Python 2.7
+
 ### Preparation on the Control Machine
 
 1. Install SSH client.
@@ -82,6 +72,8 @@ Add a line to the END of the file opened by running `sudo visudo`:
 4. Copy the public key to the remote
 
         ssh-copy-id user@remote_host
+
+5. Install Ansible.
 
 ### Add Target Machine to Hosts
 
